@@ -25,7 +25,7 @@ const reviews = [
 const Home = () => (
   <div className="min-h-screen">
     {/* Hero */}
-    <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden -mt-[72px] pt-[72px]">
+    <section className="relative h-screen min-h-[600px] flex items-center justify-center overflow-hidden -mt-[72px]">
       <div
         className="absolute inset-0 bg-cover bg-center animate-[heroZoom_18s_ease-in-out_infinite_alternate]"
         style={{
