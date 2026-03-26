@@ -2,12 +2,33 @@ import { useState } from "react";
 import PageHero from "@/components/PageHero";
 import heroBg from "@/assets/hero-bg.jpg";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const ReservePage = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    setLoading(true);
+    const { error } = await supabase.from("reservations").insert({
+      name: formData.get("name") as string,
+      phone: formData.get("phone") as string,
+      email: formData.get("email") as string,
+      guests: parseInt(formData.get("guests") as string),
+      date: formData.get("date") as string,
+      time: formData.get("time") as string,
+      requests: (formData.get("requests") as string) || "",
+    });
+    setLoading(false);
+
+    if (error) {
+      toast.error("Failed to submit reservation. Please try again.");
+      return;
+    }
     setSubmitted(true);
     toast.success("Reservation request received!");
   };
@@ -28,48 +49,49 @@ const ReservePage = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div className="flex flex-col gap-2">
                 <label className="text-[0.7rem] tracking-[0.2em] uppercase text-primary">Full Name</label>
-                <input required className="bg-accent border border-primary/20 text-foreground px-4 py-3 font-sans text-sm font-light outline-none focus:border-primary transition-colors placeholder:text-muted-foreground" placeholder="Your name" />
+                <input name="name" required className="bg-accent border border-primary/20 text-foreground px-4 py-3 font-sans text-sm font-light outline-none focus:border-primary transition-colors placeholder:text-muted-foreground" placeholder="Your name" />
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-[0.7rem] tracking-[0.2em] uppercase text-primary">Phone Number</label>
-                <input required className="bg-accent border border-primary/20 text-foreground px-4 py-3 font-sans text-sm font-light outline-none focus:border-primary transition-colors placeholder:text-muted-foreground" placeholder="+1 (555) 000-0000" />
+                <input name="phone" required className="bg-accent border border-primary/20 text-foreground px-4 py-3 font-sans text-sm font-light outline-none focus:border-primary transition-colors placeholder:text-muted-foreground" placeholder="+1 (555) 000-0000" />
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div className="flex flex-col gap-2">
                 <label className="text-[0.7rem] tracking-[0.2em] uppercase text-primary">Email Address</label>
-                <input type="email" required className="bg-accent border border-primary/20 text-foreground px-4 py-3 font-sans text-sm font-light outline-none focus:border-primary transition-colors placeholder:text-muted-foreground" placeholder="your@email.com" />
+                <input name="email" type="email" required className="bg-accent border border-primary/20 text-foreground px-4 py-3 font-sans text-sm font-light outline-none focus:border-primary transition-colors placeholder:text-muted-foreground" placeholder="your@email.com" />
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-[0.7rem] tracking-[0.2em] uppercase text-primary">Party Size</label>
-                <select className="bg-accent border border-primary/20 text-foreground px-4 py-3 font-sans text-sm font-light outline-none focus:border-primary transition-colors">
-                  {[1, 2, 3, 4, 5, 6, 7, 8].map(n => <option key={n}>{n} {n === 1 ? "Guest" : "Guests"}</option>)}
+                <select name="guests" className="bg-accent border border-primary/20 text-foreground px-4 py-3 font-sans text-sm font-light outline-none focus:border-primary transition-colors">
+                  {[1, 2, 3, 4, 5, 6, 7, 8].map(n => <option key={n} value={n}>{n} {n === 1 ? "Guest" : "Guests"}</option>)}
                 </select>
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div className="flex flex-col gap-2">
                 <label className="text-[0.7rem] tracking-[0.2em] uppercase text-primary">Preferred Date</label>
-                <input type="date" required className="bg-accent border border-primary/20 text-foreground px-4 py-3 font-sans text-sm font-light outline-none focus:border-primary transition-colors" />
+                <input name="date" type="date" required className="bg-accent border border-primary/20 text-foreground px-4 py-3 font-sans text-sm font-light outline-none focus:border-primary transition-colors" />
               </div>
               <div className="flex flex-col gap-2">
                 <label className="text-[0.7rem] tracking-[0.2em] uppercase text-primary">Preferred Time</label>
-                <select className="bg-accent border border-primary/20 text-foreground px-4 py-3 font-sans text-sm font-light outline-none focus:border-primary transition-colors">
+                <select name="time" className="bg-accent border border-primary/20 text-foreground px-4 py-3 font-sans text-sm font-light outline-none focus:border-primary transition-colors">
                   {["5:30 PM", "6:00 PM", "6:30 PM", "7:00 PM", "7:30 PM", "8:00 PM", "8:30 PM", "9:00 PM", "9:30 PM"].map(t => <option key={t}>{t}</option>)}
                 </select>
               </div>
             </div>
             <div className="flex flex-col gap-2 mb-6">
               <label className="text-[0.7rem] tracking-[0.2em] uppercase text-primary">Special Requests</label>
-              <textarea className="bg-accent border border-primary/20 text-foreground px-4 py-3 font-sans text-sm font-light outline-none focus:border-primary transition-colors resize-y min-h-[100px] placeholder:text-muted-foreground" placeholder="Dietary restrictions, celebrations, seating preferences..." />
+              <textarea name="requests" className="bg-accent border border-primary/20 text-foreground px-4 py-3 font-sans text-sm font-light outline-none focus:border-primary transition-colors resize-y min-h-[100px] placeholder:text-muted-foreground" placeholder="Dietary restrictions, celebrations, seating preferences..." />
             </div>
             <div className="text-center mt-10">
               <button
                 type="submit"
-                className="inline-flex items-center gap-2 font-sans text-[0.78rem] font-medium tracking-[0.18em] uppercase px-10 py-4 bg-primary text-primary-foreground transition-all hover:bg-primary-light"
+                disabled={loading}
+                className="inline-flex items-center gap-2 font-sans text-[0.78rem] font-medium tracking-[0.18em] uppercase px-10 py-4 bg-primary text-primary-foreground transition-all hover:bg-primary-light disabled:opacity-50"
                 style={{ clipPath: "polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))" }}
               >
-                Confirm Reservation
+                {loading ? "Submitting..." : "Confirm Reservation"}
               </button>
             </div>
           </form>
