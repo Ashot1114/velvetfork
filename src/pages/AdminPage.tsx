@@ -314,6 +314,7 @@ const AdminPage = () => {
                 <ChangePasswordForm />
               </div>
             )}
+          </>
         )}
       </div>
     </div>
