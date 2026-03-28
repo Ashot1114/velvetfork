@@ -41,6 +41,7 @@ const statusColors: Record<string, string> = {
   new: "bg-primary/15 text-primary border border-primary/30",
   confirmed: "bg-emerald-500/15 text-emerald-400 border border-emerald-500/30",
   cancelled: "bg-red-500/15 text-red-400 border border-red-500/30",
+  completed: "bg-blue-500/15 text-blue-400 border border-blue-500/30",
   read: "bg-muted-foreground/15 text-muted-foreground border border-muted-foreground/20",
 };
 
@@ -225,10 +226,17 @@ const AdminPage = () => {
                         <p className="text-muted-foreground text-sm leading-relaxed mb-6">{selectedReservation.requests || "None"}</p>
                         <span className="text-[0.68rem] tracking-[0.15em] uppercase text-primary block mb-2">Status</span>
                         <span className={`inline-block px-3 py-1 text-[0.65rem] tracking-[0.1em] uppercase mb-6 ${statusColors[selectedReservation.status] || ""}`}>{selectedReservation.status}</span>
-                        {selectedReservation.status === "new" && (
-                          <div className="flex gap-3 mt-4">
-                            <button onClick={() => handleUpdateStatus(selectedReservation.id, "confirmed")} className="px-6 py-3 text-[0.72rem] tracking-[0.15em] uppercase bg-primary text-primary-foreground hover:bg-primary-light transition-colors">Confirm</button>
-                            <button onClick={() => handleUpdateStatus(selectedReservation.id, "cancelled")} className="px-6 py-3 text-[0.72rem] tracking-[0.15em] uppercase border border-red-500/30 text-red-400 hover:bg-red-500/10 transition-colors">Cancel</button>
+                        {selectedReservation.status !== "completed" && (
+                          <div className="flex gap-3 mt-4 flex-wrap">
+                            {selectedReservation.status !== "confirmed" && (
+                              <button onClick={() => handleUpdateStatus(selectedReservation.id, "confirmed")} className="px-6 py-3 text-[0.72rem] tracking-[0.15em] uppercase bg-primary text-primary-foreground hover:bg-primary-light transition-colors">Confirm</button>
+                            )}
+                            {selectedReservation.status !== "cancelled" && (
+                              <button onClick={() => handleUpdateStatus(selectedReservation.id, "cancelled")} className="px-6 py-3 text-[0.72rem] tracking-[0.15em] uppercase border border-red-500/30 text-red-400 hover:bg-red-500/10 transition-colors">Cancel</button>
+                            )}
+                            {selectedReservation.status === "confirmed" && (
+                              <button onClick={() => handleUpdateStatus(selectedReservation.id, "completed")} className="px-6 py-3 text-[0.72rem] tracking-[0.15em] uppercase border border-blue-500/30 text-blue-400 hover:bg-blue-500/10 transition-colors">Complete</button>
+                            )}
                           </div>
                         )}
                       </div>
