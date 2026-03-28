@@ -51,7 +51,7 @@ const Footer = () => (
       </div>
     </div>
     <div className="border-t border-border pt-6 max-w-[1300px] mx-auto flex items-center justify-between flex-wrap gap-4">
-      <span className="text-xs text-muted-foreground">© 2024 Velvet Fork. All rights reserved.</span>
+      <span className="text-xs text-muted-foreground"><span className="text-xs text-muted-foreground">© 2010–2011 Velvet Fork. All rights reserved.</span></span>
       <span className="text-xs text-muted-foreground">Designed with passion in NYC</span>
     </div>
   </footer>

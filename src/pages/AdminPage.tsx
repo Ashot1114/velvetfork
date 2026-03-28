@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { CalendarDays, MessageSquare, LayoutDashboard, Clock, Users, TrendingUp, Eye, Trash2, LogOut } from "lucide-react";
+import { CalendarDays, MessageSquare, LayoutDashboard, Clock, Users, TrendingUp, Eye, Trash2, LogOut, Settings } from "lucide-react";
+import ChangePasswordForm from "@/components/admin/ChangePasswordForm";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
@@ -31,6 +32,7 @@ const tabs = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
   { id: "reservations", label: "Reservations", icon: CalendarDays },
   { id: "messages", label: "Messages", icon: MessageSquare },
+  { id: "settings", label: "Settings", icon: Settings },
 ] as const;
 
 type TabId = (typeof tabs)[number]["id"];
@@ -304,6 +306,12 @@ const AdminPage = () => {
                     </div>
                   ))
                 )}
+              </div>
+            )}
+
+            {activeTab === "settings" && (
+              <div className="space-y-6">
+                <ChangePasswordForm />
               </div>
             )}
           </>
