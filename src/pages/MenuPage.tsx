@@ -5,8 +5,7 @@ import dishDuck from "@/assets/dish-duck.jpg";
 import dishLobster from "@/assets/dish-lobster.jpg";
 import dishBeet from "@/assets/dish-beet.jpg";
 import dishWagyu from "@/assets/dish-wagyu.jpg";
-
-const categories = ["Starters", "Main Course", "Desserts", "Drinks"] as const;
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const menuData: Record<string, Array<{ name: string; desc: string; price: string; tag?: string; img: string }>> = {
   Starters: [
@@ -35,16 +34,25 @@ const menuData: Record<string, Array<{ name: string; desc: string; price: string
   ],
 };
 
+const categoryKeys = ["Starters", "Main Course", "Desserts", "Drinks"] as const;
+const categoryTranslationKeys: Record<string, string> = {
+  "Starters": "menu.starters",
+  "Main Course": "menu.mainCourse",
+  "Desserts": "menu.desserts",
+  "Drinks": "menu.drinks",
+};
+
 const MenuPage = () => {
   const [active, setActive] = useState<string>("Starters");
   const items = menuData[active] || [];
+  const { t } = useLanguage();
 
   return (
     <div className="min-h-screen">
-      <PageHero title="Our" titleAccent="Menu" subtitle="Curated Selections" image={menuHero} />
+      <PageHero title={t("menu.our")} titleAccent={t("menu.menu")} subtitle={t("menu.subtitle")} image={menuHero} />
       <section className="max-w-[1200px] mx-auto py-20 px-[5%]">
         <div className="flex gap-0 border-b border-primary/20 mb-16 flex-wrap">
-          {categories.map((cat) => (
+          {categoryKeys.map((cat) => (
             <button
               key={cat}
               onClick={() => setActive(cat)}
@@ -54,31 +62,20 @@ const MenuPage = () => {
                   : "text-muted-foreground border-transparent hover:text-primary hover:border-primary"
               }`}
             >
-              {cat}
+              {t(categoryTranslationKeys[cat])}
             </button>
           ))}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-px">
           {items.map((item) => (
-            <div
-              key={item.name}
-              className="flex gap-6 items-start p-8 bg-muted border border-transparent transition-all hover:border-primary/20 hover:bg-accent"
-            >
-              <img
-                src={item.img}
-                alt={item.name}
-                className="w-[90px] h-[90px] flex-shrink-0 object-cover"
-                style={{ clipPath: "polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))" }}
-                loading="lazy"
-              />
+            <div key={item.name} className="flex gap-6 items-start p-8 bg-muted border border-transparent transition-all hover:border-primary/20 hover:bg-accent">
+              <img src={item.img} alt={item.name} className="w-[90px] h-[90px] flex-shrink-0 object-cover" style={{ clipPath: "polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))" }} loading="lazy" />
               <div className="flex-1">
                 <h3 className="font-serif text-lg font-normal text-foreground mb-1">{item.name}</h3>
                 <p className="text-[0.8rem] text-muted-foreground leading-relaxed mb-2">{item.desc}</p>
                 <span className="font-serif text-lg text-primary">{item.price}</span>
                 {item.tag && (
-                  <span className="inline-block ml-3 text-[0.58rem] tracking-[0.15em] uppercase px-2 py-0.5 border border-primary/40 text-primary align-middle">
-                    {item.tag}
-                  </span>
+                  <span className="inline-block ml-3 text-[0.58rem] tracking-[0.15em] uppercase px-2 py-0.5 border border-primary/40 text-primary align-middle">{item.tag}</span>
                 )}
               </div>
             </div>
