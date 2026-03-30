@@ -108,6 +108,10 @@ const translations: Record<Language, Record<string, string>> = {
     "admin.markRead": "Отметить прочитанным", "admin.delete": "Удалить", "admin.loading": "Загрузка...", "admin.loadingData": "Загрузка данных...",
     "login.management": "Управление", "login.title": "Вход администратора", "login.email": "Эл. почта", "login.password": "Пароль", "login.signIn": "Войти", "login.signingIn": "Вход...",
     "password.title": "Сменить пароль", "password.new": "Новый пароль", "password.confirm": "Подтвердите пароль", "password.update": "Обновить пароль", "password.updating": "Обновление...",
+    "auth.welcome": "Добро пожаловать", "auth.signIn": "Войти", "auth.signUp": "Регистрация", "auth.email": "Эл. почта", "auth.password": "Пароль", "auth.confirmPassword": "Подтвердите пароль",
+    "auth.signingIn": "Вход...", "auth.signingUp": "Регистрация...", "auth.noAccount": "Нет аккаунта?", "auth.hasAccount": "Уже есть аккаунт?",
+    "auth.loginSuccess": "Вы вошли успешно", "auth.registerSuccess": "Аккаунт создан! Проверьте почту.", "auth.passwordMismatch": "Пароли не совпадают", "auth.passwordMin": "Пароль минимум 6 символов",
+    "auth.loginRequired": "Войдите, чтобы продолжить",
   },
   hy: {
     "nav.home": "Գլխավոր",
