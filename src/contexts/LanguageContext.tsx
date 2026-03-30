@@ -250,6 +250,10 @@ const translations: Record<Language, Record<string, string>> = {
     "password.confirm": "Հաստատել գաղտնաբառը",
     "password.update": "Թարմացնել",
     "password.updating": "Թարմացնվում է...",
+    "auth.welcome": "Բdelays delays", "auth.signIn": "Մdelays", "auth.signUp": "Delaysdelaysdelays", "auth.email": "Delay. delays", "auth.password": "Delaysdelaysdelaysdelays", "auth.confirmPassword": "Delaysdelaysdelays delaysdelaysdelaysdelays",
+    "auth.signingIn": "Delays...", "auth.signingUp": "Delaysdelaysdelays...", "auth.noAccount": "Delaysdelays delays?", "auth.hasAccount": "delays delays?",
+    "auth.loginSuccess": "Delays delays", "auth.registerSuccess": "Delays delays!", "auth.passwordMismatch": "Delays delays", "auth.passwordMin": "delays 6 delays",
+    "auth.loginRequired": "Delays delays",
   },
   fr: {
     "nav.home": "Accueil", "nav.menu": "Menu", "nav.about": "À propos", "nav.gallery": "Galerie", "nav.contact": "Contact", "nav.reserve": "Réserver",
@@ -293,6 +297,10 @@ const translations: Record<Language, Record<string, string>> = {
     "admin.markRead": "Marquer comme lu", "admin.delete": "Supprimer", "admin.loading": "Chargement...", "admin.loadingData": "Chargement des données...",
     "login.management": "Gestion", "login.title": "Connexion admin", "login.email": "E-mail", "login.password": "Mot de passe", "login.signIn": "Se connecter", "login.signingIn": "Connexion...",
     "password.title": "Changer le mot de passe", "password.new": "Nouveau mot de passe", "password.confirm": "Confirmer le mot de passe", "password.update": "Mettre à jour", "password.updating": "Mise à jour...",
+    "auth.welcome": "Bienvenue", "auth.signIn": "Se connecter", "auth.signUp": "S'inscrire", "auth.email": "E-mail", "auth.password": "Mot de passe", "auth.confirmPassword": "Confirmer le mot de passe",
+    "auth.signingIn": "Connexion...", "auth.signingUp": "Inscription...", "auth.noAccount": "Pas de compte ?", "auth.hasAccount": "Déjà un compte ?",
+    "auth.loginSuccess": "Connecté avec succès", "auth.registerSuccess": "Compte créé ! Vérifiez votre e-mail.", "auth.passwordMismatch": "Les mots de passe ne correspondent pas", "auth.passwordMin": "Le mot de passe doit avoir au moins 6 caractères",
+    "auth.loginRequired": "Veuillez vous connecter",
   },
   zh: {
     "nav.home": "首页", "nav.menu": "菜单", "nav.about": "关于", "nav.gallery": "画廊", "nav.contact": "联系", "nav.reserve": "预订",
@@ -336,6 +344,10 @@ const translations: Record<Language, Record<string, string>> = {
     "admin.markRead": "标记已读", "admin.delete": "删除", "admin.loading": "加载中...", "admin.loadingData": "加载数据...",
     "login.management": "管理", "login.title": "管理员登录", "login.email": "电子邮件", "login.password": "密码", "login.signIn": "登录", "login.signingIn": "登录中...",
     "password.title": "修改密码", "password.new": "新密码", "password.confirm": "确认密码", "password.update": "更新密码", "password.updating": "更新中...",
+    "auth.welcome": "欢迎", "auth.signIn": "登录", "auth.signUp": "注册", "auth.email": "电子邮件", "auth.password": "密码", "auth.confirmPassword": "确认密码",
+    "auth.signingIn": "登录中...", "auth.signingUp": "注册中...", "auth.noAccount": "没有账户？", "auth.hasAccount": "已有账户？",
+    "auth.loginSuccess": "登录成功", "auth.registerSuccess": "账户已创建！请检查邮箱。", "auth.passwordMismatch": "密码不匹配", "auth.passwordMin": "密码至少6个字符",
+    "auth.loginRequired": "请登录以继续",
   },
 };
 
