@@ -61,6 +61,10 @@ const translations: Record<Language, Record<string, string>> = {
     "admin.markRead": "Mark as read", "admin.delete": "Delete", "admin.loading": "Loading...", "admin.loadingData": "Loading data...",
     "login.management": "Management", "login.title": "Admin Login", "login.email": "Email", "login.password": "Password", "login.signIn": "Sign In", "login.signingIn": "Signing in...",
     "password.title": "Change Password", "password.new": "New Password", "password.confirm": "Confirm Password", "password.update": "Update Password", "password.updating": "Updating...",
+    "auth.welcome": "Welcome", "auth.signIn": "Sign In", "auth.signUp": "Sign Up", "auth.email": "Email", "auth.password": "Password", "auth.confirmPassword": "Confirm Password",
+    "auth.signingIn": "Signing in...", "auth.signingUp": "Signing up...", "auth.noAccount": "Don't have an account?", "auth.hasAccount": "Already have an account?",
+    "auth.loginSuccess": "Logged in successfully", "auth.registerSuccess": "Account created! Please check your email to verify.", "auth.passwordMismatch": "Passwords do not match", "auth.passwordMin": "Password must be at least 6 characters",
+    "auth.loginRequired": "Please sign in to continue",
   },
   ru: {
     "nav.home": "Главная", "nav.menu": "Меню", "nav.about": "О нас", "nav.gallery": "Галерея", "nav.contact": "Контакты", "nav.reserve": "Бронь",
