@@ -11,6 +11,8 @@ const ReservePage = () => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const { t } = useLanguage();
+  const { user } = useAuth();
+  const { openAuthModal } = useAuthModal();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
