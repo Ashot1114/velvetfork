@@ -44,6 +44,7 @@ const App = () => (
               </Routes>
             </div>
             <Footer />
+            </AuthModalProvider>
           </BrowserRouter>
         </LanguageProvider>
       </ThemeProvider>
