@@ -171,11 +171,20 @@ const Navbar = () => {
           {t("nav.reserve")}
         </Link>
 
-        {/* Mobile language & theme */}
+        {/* Mobile language, theme & auth */}
         <div className="flex items-center gap-4 mt-4">
           <button onClick={toggleTheme} className="p-2 text-foreground/70 hover:text-primary transition-colors">
             {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </button>
+          {user ? (
+            <button onClick={signOut} className="p-2 text-foreground/70 hover:text-primary transition-colors">
+              <LogOut className="w-5 h-5" />
+            </button>
+          ) : (
+            <button onClick={() => { setMobileOpen(false); openAuthModal(); }} className="p-2 text-foreground/70 hover:text-primary transition-colors">
+              <User className="w-5 h-5" />
+            </button>
+          )}
           <div className="flex gap-2">
             {languages.map((lang) => (
               <button
