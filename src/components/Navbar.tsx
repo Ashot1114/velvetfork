@@ -43,8 +43,8 @@ const Navbar = () => {
             : ""
         }`}
       >
-        <Link to="/" className="font-serif text-2xl font-normal tracking-wide mr-auto text-foreground">
-          Velvet <span className="text-primary">Fork</span>
+        <Link to="/" className="mr-auto">
+          <img src={logo} alt="Velvet Fork" className="h-12 w-auto" />
         </Link>
 
         <div className="hidden md:flex gap-10 items-center">

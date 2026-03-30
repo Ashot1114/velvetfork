@@ -17,8 +17,8 @@ const Footer = () => {
     <footer className="bg-secondary border-t border-border px-[5%] pt-20 pb-8 transition-colors">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 max-w-[1300px] mx-auto mb-16">
         <div>
-          <Link to="/" className="font-serif text-[1.6rem] block mb-5 text-foreground">
-            Velvet <span className="text-primary">Fork</span>
+          <Link to="/" className="block mb-5">
+            <img src={logo} alt="Velvet Fork" className="h-16 w-auto" />
           </Link>
           <p className="text-sm text-muted-foreground leading-relaxed mb-6">{t("footer.desc")}</p>
           <div className="flex gap-4">
