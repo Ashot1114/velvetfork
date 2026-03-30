@@ -39,10 +39,6 @@ const ReservePage = () => {
       return;
     }
 
-    if (error) {
-      toast.error("Failed to submit reservation. Please try again.");
-      return;
-    }
     setSubmitted(true);
     toast.success(t("reserve.received"));
   };
