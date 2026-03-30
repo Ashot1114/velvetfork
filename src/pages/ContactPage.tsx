@@ -16,6 +16,11 @@ const ContactPage = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!user) {
+      toast.error(t("auth.loginRequired"));
+      openAuthModal();
+      return;
+    }
     const form = e.currentTarget;
     const formData = new FormData(form);
 
