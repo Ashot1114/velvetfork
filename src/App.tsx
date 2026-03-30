@@ -27,6 +27,8 @@ const App = () => (
         <LanguageProvider>
           <Sonner />
           <BrowserRouter>
+            <AuthModalProvider>
+            <AuthModal />
             <Navbar />
             <div className="pt-[72px]">
               <Routes>
