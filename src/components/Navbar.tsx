@@ -24,6 +24,8 @@ const Navbar = () => {
   const location = useLocation();
   const { t, language, setLanguage } = useLanguage();
   const { theme, toggleTheme } = useTheme();
+  const { user, signOut } = useAuth();
+  const { openAuthModal } = useAuthModal();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
