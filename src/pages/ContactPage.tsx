@@ -35,10 +35,6 @@ const ContactPage = () => {
       return;
     }
 
-    if (error) {
-      toast.error("Failed to send message. Please try again.");
-      return;
-    }
     setSent(true);
     toast.success(t("contact.sent"));
   };
