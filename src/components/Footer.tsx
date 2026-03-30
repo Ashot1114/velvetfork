@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
+import logo from "@/assets/velvetfork-logo.png";
 
 const Footer = () => {
   const { t } = useLanguage();
