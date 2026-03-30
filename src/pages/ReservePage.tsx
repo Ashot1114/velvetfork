@@ -16,16 +16,28 @@ const ReservePage = () => {
     const formData = new FormData(form);
 
     setLoading(true);
-    const { error } = await supabase.from("reservations").insert({
-      name: formData.get("name") as string,
-      phone: formData.get("phone") as string,
-      email: formData.get("email") as string,
-      guests: parseInt(formData.get("guests") as string),
-      date: formData.get("date") as string,
-      time: formData.get("time") as string,
-      requests: (formData.get("requests") as string) || "",
-    });
-    setLoading(false);
+    try {
+      const res = await supabase.functions.invoke("submit-reservation", {
+        body: {
+          name: formData.get("name") as string,
+          phone: formData.get("phone") as string,
+          email: formData.get("email") as string,
+          guests: parseInt(formData.get("guests") as string),
+          date: formData.get("date") as string,
+          time: formData.get("time") as string,
+          requests: (formData.get("requests") as string) || "",
+        },
+      });
+      setLoading(false);
+      if (res.error || res.data?.error) {
+        toast.error(res.data?.error || "Failed to submit reservation. Please try again.");
+        return;
+      }
+    } catch {
+      setLoading(false);
+      toast.error("Failed to submit reservation. Please try again.");
+      return;
+    }
 
     if (error) {
       toast.error("Failed to submit reservation. Please try again.");
