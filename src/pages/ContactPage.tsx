@@ -16,17 +16,25 @@ const ContactPage = () => {
     const formData = new FormData(form);
 
     setLoading(true);
-    const { error } = await supabase.from("messages").insert({
-      name: formData.get("name") as string,
-      email: formData.get("email") as string,
-      message: formData.get("message") as string,
-    });
-    setLoading(false);
-
-    if (error) {
+    try {
+      const res = await supabase.functions.invoke("submit-message", {
+        body: {
+          name: formData.get("name") as string,
+          email: formData.get("email") as string,
+          message: formData.get("message") as string,
+        },
+      });
+      setLoading(false);
+      if (res.error || res.data?.error) {
+        toast.error(res.data?.error || "Failed to send message. Please try again.");
+        return;
+      }
+    } catch {
+      setLoading(false);
       toast.error("Failed to send message. Please try again.");
       return;
     }
+
     setSent(true);
     toast.success(t("contact.sent"));
   };
