@@ -108,6 +108,7 @@ const Navbar = () => {
             aria-label="Toggle theme"
           >
             {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </button>
           {/* User auth */}
           {user ? (
             <button
