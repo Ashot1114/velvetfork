@@ -4,14 +4,23 @@ import heroBg from "@/assets/hero-bg.jpg";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/hooks/useAuth";
+import { useAuthModal } from "@/contexts/AuthModalContext";
 
 const ReservePage = () => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const { t } = useLanguage();
+  const { user } = useAuth();
+  const { openAuthModal } = useAuthModal();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!user) {
+      toast.error(t("auth.loginRequired"));
+      openAuthModal();
+      return;
+    }
     const form = e.currentTarget;
     const formData = new FormData(form);
 

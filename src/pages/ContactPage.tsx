@@ -4,14 +4,23 @@ import galleryHero from "@/assets/gallery-hero.jpg";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/hooks/useAuth";
+import { useAuthModal } from "@/contexts/AuthModalContext";
 
 const ContactPage = () => {
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const { t } = useLanguage();
+  const { user } = useAuth();
+  const { openAuthModal } = useAuthModal();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!user) {
+      toast.error(t("auth.loginRequired"));
+      openAuthModal();
+      return;
+    }
     const form = e.currentTarget;
     const formData = new FormData(form);
 

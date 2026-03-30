@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "@/assets/velvetfork-logo.png";
-import { Menu, X, Sun, Moon, Globe } from "lucide-react";
+import { Menu, X, Sun, Moon, Globe, User, LogOut } from "lucide-react";
 import { useLanguage, languageFullNames, type Language } from "@/contexts/LanguageContext";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useAuth } from "@/hooks/useAuth";
+import { useAuthModal } from "@/contexts/AuthModalContext";
 
 const navKeys = [
   { to: "/", key: "nav.home" },
@@ -22,6 +24,8 @@ const Navbar = () => {
   const location = useLocation();
   const { t, language, setLanguage } = useLanguage();
   const { theme, toggleTheme } = useTheme();
+  const { user, signOut } = useAuth();
+  const { openAuthModal } = useAuthModal();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 30);
@@ -105,6 +109,25 @@ const Navbar = () => {
           >
             {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
+          {/* User auth */}
+          {user ? (
+            <button
+              onClick={signOut}
+              className="p-2 text-foreground/70 hover:text-primary transition-colors"
+              aria-label="Sign out"
+              title={user.email}
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          ) : (
+            <button
+              onClick={openAuthModal}
+              className="p-2 text-foreground/70 hover:text-primary transition-colors"
+              aria-label="Sign in"
+            >
+              <User className="w-4 h-4" />
+            </button>
+          )}
         </div>
 
         <Link
@@ -148,11 +171,20 @@ const Navbar = () => {
           {t("nav.reserve")}
         </Link>
 
-        {/* Mobile language & theme */}
+        {/* Mobile language, theme & auth */}
         <div className="flex items-center gap-4 mt-4">
           <button onClick={toggleTheme} className="p-2 text-foreground/70 hover:text-primary transition-colors">
             {theme === "dark" ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
           </button>
+          {user ? (
+            <button onClick={signOut} className="p-2 text-foreground/70 hover:text-primary transition-colors">
+              <LogOut className="w-5 h-5" />
+            </button>
+          ) : (
+            <button onClick={() => { setMobileOpen(false); openAuthModal(); }} className="p-2 text-foreground/70 hover:text-primary transition-colors">
+              <User className="w-5 h-5" />
+            </button>
+          )}
           <div className="flex gap-2">
             {languages.map((lang) => (
               <button

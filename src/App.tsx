@@ -4,8 +4,10 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { AuthModalProvider } from "@/contexts/AuthModalContext";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import AuthModal from "./components/AuthModal";
 import Home from "./pages/Home";
 import MenuPage from "./pages/MenuPage";
 import AboutPage from "./pages/AboutPage";
@@ -25,6 +27,8 @@ const App = () => (
         <LanguageProvider>
           <Sonner />
           <BrowserRouter>
+            <AuthModalProvider>
+            <AuthModal />
             <Navbar />
             <div className="pt-[72px]">
               <Routes>
@@ -40,6 +44,7 @@ const App = () => (
               </Routes>
             </div>
             <Footer />
+            </AuthModalProvider>
           </BrowserRouter>
         </LanguageProvider>
       </ThemeProvider>
