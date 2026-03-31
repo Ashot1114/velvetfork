@@ -366,6 +366,13 @@ const translations: Record<Language, Record<string, string>> = {
     "auth.newPassword": "Nouveau mot de passe",
     "auth.passwordResetSuccess": "Mot de passe mis à jour !",
     "auth.invalidResetLink": "Lien invalide ou expiré.",
+    "profile.myAccount": "Mon compte",
+    "profile.title": "Mon",
+    "profile.subtitle": "Profil",
+    "profile.loggedInAs": "Connecté en tant que",
+    "profile.reservationHistory": "Historique des réservations",
+    "profile.noReservations": "Vous n'avez pas encore de réservations.",
+    "profile.myReservations": "Mes réservations",
   },
   zh: {
     "nav.home": "首页", "nav.menu": "菜单", "nav.about": "关于", "nav.gallery": "画廊", "nav.contact": "联系", "nav.reserve": "预订",
