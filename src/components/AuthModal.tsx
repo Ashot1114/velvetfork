@@ -55,12 +55,28 @@ const AuthModal = () => {
     }
   };
 
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setLoading(false);
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success(t("auth.resetEmailSent"));
+      setForgotMode(false);
+    }
+  };
+
   const resetForm = () => {
     setEmail("");
     setPassword("");
     setConfirmPassword("");
     setShowPassword(false);
     setShowConfirm(false);
+    setForgotMode(false);
   };
 
   const inputClass = "w-full bg-accent border border-primary/20 text-foreground px-4 py-3 font-sans text-sm font-light outline-none focus:border-primary transition-colors placeholder:text-muted-foreground";
