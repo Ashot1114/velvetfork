@@ -381,6 +381,17 @@ const translations: Record<Language, Record<string, string>> = {
     "auth.signingIn": "登录中...", "auth.signingUp": "注册中...", "auth.noAccount": "没有账户？", "auth.hasAccount": "已有账户？",
     "auth.loginSuccess": "登录成功", "auth.registerSuccess": "账户已创建！请检查邮箱。", "auth.passwordMismatch": "密码不匹配", "auth.passwordMin": "密码至少6个字符",
     "auth.loginRequired": "请登录以继续",
+    "auth.signOut": "退出",
+    "auth.forgotPassword": "忘记密码？",
+    "auth.forgotDesc": "输入您的电子邮件，我们将发送重置链接。",
+    "auth.sendResetLink": "发送重置链接",
+    "auth.sending": "发送中...",
+    "auth.backToLogin": "返回登录",
+    "auth.resetEmailSent": "重置链接已发送！请检查邮箱。",
+    "auth.resetPassword": "重置密码",
+    "auth.newPassword": "新密码",
+    "auth.passwordResetSuccess": "密码更新成功！",
+    "auth.invalidResetLink": "无效或过期的重置链接。",
   },
 };
 
