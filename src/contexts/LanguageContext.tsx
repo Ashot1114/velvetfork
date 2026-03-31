@@ -141,6 +141,13 @@ const translations: Record<Language, Record<string, string>> = {
     "auth.newPassword": "Новый пароль",
     "auth.passwordResetSuccess": "Пароль обновлён!",
     "auth.invalidResetLink": "Недействительная ссылка.",
+    "profile.myAccount": "Мой аккаунт",
+    "profile.title": "Мой",
+    "profile.subtitle": "Профиль",
+    "profile.loggedInAs": "Вы вошли как",
+    "profile.reservationHistory": "История бронирований",
+    "profile.noReservations": "У вас пока нет бронирований.",
+    "profile.myReservations": "Мои бронирования",
   },
   hy: {
     "nav.home": "Գլխավոր",
