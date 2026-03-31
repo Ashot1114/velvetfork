@@ -71,7 +71,7 @@ const ProfilePage = () => {
     <>
       <section className="py-20 px-[5%] mt-8">
         <div className="max-w-4xl mx-auto">
-          <SectionHeader label={t("profile.myAccount")} title={t("profile.title")} accent={t("profile.subtitle")} />
+          <SectionHeader label={t("profile.myAccount")} title={t("profile.title")} titleAccent={t("profile.subtitle")} />
           {/* User Info */}
           <div className="border border-border p-6 mb-10 flex items-center gap-4">
             <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
