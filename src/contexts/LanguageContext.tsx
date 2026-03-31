@@ -431,6 +431,13 @@ const translations: Record<Language, Record<string, string>> = {
     "auth.newPassword": "新密码",
     "auth.passwordResetSuccess": "密码更新成功！",
     "auth.invalidResetLink": "无效或过期的重置链接。",
+    "profile.myAccount": "我的账户",
+    "profile.title": "我的",
+    "profile.subtitle": "资料",
+    "profile.loggedInAs": "已登录为",
+    "profile.reservationHistory": "预订历史",
+    "profile.noReservations": "您还没有任何预订。",
+    "profile.myReservations": "我的预订",
   },
 };
 
