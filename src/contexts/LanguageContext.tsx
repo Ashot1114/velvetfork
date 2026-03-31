@@ -301,6 +301,13 @@ const translations: Record<Language, Record<string, string>> = {
     "auth.newPassword": "Նdelays",
     "auth.passwordResetSuccess": "Delays!",
     "auth.invalidResetLink": "Delays.",
+    "profile.myAccount": "Իdelays",
+    "profile.title": "Իdelays",
+    "profile.subtitle": "Պdelays",
+    "profile.loggedInAs": "Մdelays",
+    "profile.reservationHistory": " Delays",
+    "profile.noReservations": "Delays.",
+    "profile.myReservations": "Delays",
   },
   fr: {
     "nav.home": "Accueil", "nav.menu": "Menu", "nav.about": "À propos", "nav.gallery": "Galerie", "nav.contact": "Contact", "nav.reserve": "Réserver",
