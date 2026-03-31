@@ -76,6 +76,13 @@ const translations: Record<Language, Record<string, string>> = {
     "auth.newPassword": "New Password",
     "auth.passwordResetSuccess": "Password updated successfully!",
     "auth.invalidResetLink": "Invalid or expired reset link.",
+    "profile.myAccount": "My Account",
+    "profile.title": "My",
+    "profile.subtitle": "Profile",
+    "profile.loggedInAs": "Logged in as",
+    "profile.reservationHistory": "Reservation History",
+    "profile.noReservations": "You haven't made any reservations yet.",
+    "profile.myReservations": "My Reservations",
   },
   ru: {
     "nav.home": "Главная", "nav.menu": "Меню", "nav.about": "О нас", "nav.gallery": "Галерея", "nav.contact": "Контакты", "nav.reserve": "Бронь",
