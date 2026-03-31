@@ -47,6 +47,16 @@ const UserDropdown = () => {
           <div className="px-4 py-2 text-xs text-muted-foreground border-b border-border truncate">
             {user.email}
           </div>
+          <Link
+            to="/profile"
+            onClick={() => setOpen(false)}
+            className="w-full px-4 py-2 text-sm text-foreground/70 hover:text-primary hover:bg-primary/5 transition-colors flex items-center gap-2"
+          >
+            <History className="w-3.5 h-3.5" />
+            {t("profile.myReservations")}
+          </Link>
+            {user.email}
+          </div>
           <button
             onClick={() => { signOut(); setOpen(false); }}
             className="w-full text-left px-4 py-2 text-sm text-foreground/70 hover:text-primary hover:bg-primary/5 transition-colors flex items-center gap-2"
