@@ -16,6 +16,7 @@ import ReservePage from "./pages/ReservePage";
 import ContactPage from "./pages/ContactPage";
 import AdminPage from "./pages/AdminPage";
 import LoginPage from "./pages/LoginPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
