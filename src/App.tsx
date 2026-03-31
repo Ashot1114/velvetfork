@@ -17,6 +17,7 @@ import ContactPage from "./pages/ContactPage";
 import AdminPage from "./pages/AdminPage";
 import LoginPage from "./pages/LoginPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import ProfilePage from "./pages/ProfilePage";
 import NotFound from "./pages/NotFound.tsx";
 
 const queryClient = new QueryClient();
