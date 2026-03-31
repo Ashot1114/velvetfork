@@ -111,24 +111,7 @@ const Navbar = () => {
             {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
           {/* User auth */}
-          {user ? (
-            <button
-              onClick={signOut}
-              className="p-2 text-foreground/70 hover:text-primary transition-colors"
-              aria-label="Sign out"
-              title={user.email}
-            >
-              <LogOut className="w-4 h-4" />
-            </button>
-          ) : (
-            <button
-              onClick={openAuthModal}
-              className="p-2 text-foreground/70 hover:text-primary transition-colors"
-              aria-label="Sign in"
-            >
-              <User className="w-4 h-4" />
-            </button>
-          )}
+          <UserDropdown />
         </div>
 
         <Link
