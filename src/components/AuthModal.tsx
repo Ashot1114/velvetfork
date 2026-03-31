@@ -131,92 +131,79 @@ const AuthModal = () => {
         </div>
 
         {/* Form */}
-        <form onSubmit={tab === "login" ? handleLogin : handleRegister} className="p-8 space-y-5">
-          <div className="flex flex-col gap-2">
-            <label className="text-[0.7rem] tracking-[0.2em] uppercase text-primary">
-              {t("auth.email")}
-            </label>
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className={inputClass}
-              placeholder={t("contact.yourEmail")}
-            />
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label className="text-[0.7rem] tracking-[0.2em] uppercase text-primary">
-              {t("auth.password")}
-            </label>
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className={`${inputClass} pr-10`}
-                placeholder="••••••••"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              </button>
-            </div>
-          </div>
-
-          {tab === "register" && (
+        {forgotMode ? (
+          <form onSubmit={handleForgotPassword} className="p-8 space-y-5">
+            <p className="text-sm text-muted-foreground">{t("auth.forgotDesc")}</p>
             <div className="flex flex-col gap-2">
               <label className="text-[0.7rem] tracking-[0.2em] uppercase text-primary">
-                {t("auth.confirmPassword")}
+                {t("auth.email")}
+              </label>
+              <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className={inputClass} placeholder={t("contact.yourEmail")} />
+            </div>
+            <button type="submit" disabled={loading} className="w-full font-sans text-[0.78rem] font-medium tracking-[0.18em] uppercase px-10 py-4 bg-primary text-primary-foreground transition-all hover:bg-primary-light disabled:opacity-50" style={{ clipPath: "polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))" }}>
+              {loading ? t("auth.sending") : t("auth.sendResetLink")}
+            </button>
+            <p className="text-center text-xs text-muted-foreground">
+              <button type="button" onClick={() => setForgotMode(false)} className="text-primary hover:underline">
+                {t("auth.backToLogin")}
+              </button>
+            </p>
+          </form>
+        ) : (
+          <form onSubmit={tab === "login" ? handleLogin : handleRegister} className="p-8 space-y-5">
+            <div className="flex flex-col gap-2">
+              <label className="text-[0.7rem] tracking-[0.2em] uppercase text-primary">
+                {t("auth.email")}
+              </label>
+              <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className={inputClass} placeholder={t("contact.yourEmail")} />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <label className="text-[0.7rem] tracking-[0.2em] uppercase text-primary">
+                {t("auth.password")}
               </label>
               <div className="relative">
-                <input
-                  type={showConfirm ? "text" : "password"}
-                  required
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                  className={`${inputClass} pr-10`}
-                  placeholder="••••••••"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirm(!showConfirm)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                <input type={showPassword ? "text" : "password"} required value={password} onChange={(e) => setPassword(e.target.value)} className={`${inputClass} pr-10`} placeholder="••••••••" />
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
+              {tab === "login" && (
+                <button type="button" onClick={() => setForgotMode(true)} className="text-xs text-primary hover:underline self-end mt-1">
+                  {t("auth.forgotPassword")}
+                </button>
+              )}
             </div>
-          )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full font-sans text-[0.78rem] font-medium tracking-[0.18em] uppercase px-10 py-4 bg-primary text-primary-foreground transition-all hover:bg-primary-light disabled:opacity-50"
-            style={{ clipPath: "polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))" }}
-          >
-            {loading
-              ? (tab === "login" ? t("auth.signingIn") : t("auth.signingUp"))
-              : (tab === "login" ? t("auth.signIn") : t("auth.signUp"))
-            }
-          </button>
+            {tab === "register" && (
+              <div className="flex flex-col gap-2">
+                <label className="text-[0.7rem] tracking-[0.2em] uppercase text-primary">
+                  {t("auth.confirmPassword")}
+                </label>
+                <div className="relative">
+                  <input type={showConfirm ? "text" : "password"} required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className={`${inputClass} pr-10`} placeholder="••••••••" />
+                  <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
+                    {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+            )}
 
-          <p className="text-center text-xs text-muted-foreground">
-            {tab === "login" ? t("auth.noAccount") : t("auth.hasAccount")}{" "}
-            <button
-              type="button"
-              onClick={() => setTab(tab === "login" ? "register" : "login")}
-              className="text-primary hover:underline"
-            >
-              {tab === "login" ? t("auth.signUp") : t("auth.signIn")}
+            <button type="submit" disabled={loading} className="w-full font-sans text-[0.78rem] font-medium tracking-[0.18em] uppercase px-10 py-4 bg-primary text-primary-foreground transition-all hover:bg-primary-light disabled:opacity-50" style={{ clipPath: "polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))" }}>
+              {loading
+                ? (tab === "login" ? t("auth.signingIn") : t("auth.signingUp"))
+                : (tab === "login" ? t("auth.signIn") : t("auth.signUp"))
+              }
             </button>
-          </p>
-        </form>
+
+            <p className="text-center text-xs text-muted-foreground">
+              {tab === "login" ? t("auth.noAccount") : t("auth.hasAccount")}{" "}
+              <button type="button" onClick={() => setTab(tab === "login" ? "register" : "login")} className="text-primary hover:underline">
+                {tab === "login" ? t("auth.signUp") : t("auth.signIn")}
+              </button>
+            </p>
+          </form>
+        )}
       </div>
     </div>
   );
