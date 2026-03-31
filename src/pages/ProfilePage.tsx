@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { User, Calendar, Clock, Users, FileText } from "lucide-react";
-import PageHero from "@/components/PageHero";
+import SectionHeader from "@/components/SectionHeader";
 
 interface Reservation {
   id: string;
