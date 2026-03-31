@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import logo from "@/assets/velvetfork-logo.png";
 import { Menu, X, Sun, Moon, Globe, User, LogOut } from "lucide-react";
+
 import { useLanguage, languageFullNames, type Language } from "@/contexts/LanguageContext";
 import { useTheme } from "@/contexts/ThemeContext";
+import UserDropdown from "@/components/UserDropdown";
 import { useAuth } from "@/hooks/useAuth";
 import { useAuthModal } from "@/contexts/AuthModalContext";
 
@@ -110,24 +112,7 @@ const Navbar = () => {
             {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
           </button>
           {/* User auth */}
-          {user ? (
-            <button
-              onClick={signOut}
-              className="p-2 text-foreground/70 hover:text-primary transition-colors"
-              aria-label="Sign out"
-              title={user.email}
-            >
-              <LogOut className="w-4 h-4" />
-            </button>
-          ) : (
-            <button
-              onClick={openAuthModal}
-              className="p-2 text-foreground/70 hover:text-primary transition-colors"
-              aria-label="Sign in"
-            >
-              <User className="w-4 h-4" />
-            </button>
-          )}
+          <UserDropdown />
         </div>
 
         <Link
