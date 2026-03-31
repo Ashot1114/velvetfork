@@ -69,13 +69,9 @@ const ProfilePage = () => {
 
   return (
     <>
-      <PageHero
-        topLabel={t("profile.myAccount")}
-        title={t("profile.title")}
-        subtitle={t("profile.subtitle")}
-      />
-
-      <section className="py-20 px-[5%]">
+      <section className="py-20 px-[5%] mt-8">
+        <div className="max-w-4xl mx-auto">
+          <SectionHeader label={t("profile.myAccount")} title={t("profile.title")} accent={t("profile.subtitle")} />
         <div className="max-w-4xl mx-auto">
           {/* User Info */}
           <div className="border border-border p-6 mb-10 flex items-center gap-4">
