@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { CalendarDays, MessageSquare, LayoutDashboard, Clock, Users, TrendingUp, Eye, Trash2, LogOut, Settings, UserCheck } from "lucide-react";
+import { CalendarDays, MessageSquare, LayoutDashboard, Clock, Users, TrendingUp, Eye, Trash2, LogOut, Settings } from "lucide-react";
 import ChangePasswordForm from "@/components/admin/ChangePasswordForm";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -28,19 +28,11 @@ type Message = {
   created_at: string;
 };
 
-type AppUser = {
-  id: string;
-  email: string;
-  created_at: string;
-  last_sign_in_at: string | null;
-  email_confirmed_at: string | null;
-};
 
 const tabs = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
   { id: "reservations", label: "Reservations", icon: CalendarDays },
   { id: "messages", label: "Messages", icon: MessageSquare },
-  { id: "users", label: "Users", icon: UserCheck },
   { id: "settings", label: "Settings", icon: Settings },
 ] as const;
 
@@ -61,7 +53,7 @@ const AdminPage = () => {
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [selectedReservation, setSelectedReservation] = useState<Reservation | null>(null);
-  const [users, setUsers] = useState<AppUser[]>([]);
+  
   const [dataLoading, setDataLoading] = useState(true);
 
   useEffect(() => {
@@ -74,14 +66,12 @@ const AdminPage = () => {
     if (!user) return;
     const fetchData = async () => {
       setDataLoading(true);
-      const [resResult, msgResult, usersResult] = await Promise.all([
+      const [resResult, msgResult] = await Promise.all([
         supabase.from("reservations").select("*").order("created_at", { ascending: false }),
         supabase.from("messages").select("*").order("created_at", { ascending: false }),
-        supabase.rpc("get_users"),
       ]);
       if (resResult.data) setReservations(resResult.data);
       if (msgResult.data) setMessages(msgResult.data);
-      if (usersResult.data) setUsers(usersResult.data as unknown as AppUser[]);
       setDataLoading(false);
     };
     fetchData();
@@ -116,7 +106,6 @@ const AdminPage = () => {
     { label: "Total Reservations", value: reservations.length, icon: CalendarDays },
     { label: "Pending", value: reservations.filter(r => r.status === "new").length, icon: Clock },
     { label: "Total Guests", value: reservations.reduce((sum, r) => sum + r.guests, 0), icon: Users },
-    { label: "Registered Users", value: users.length, icon: UserCheck },
     { label: "New Messages", value: messages.filter(m => m.status === "new").length, icon: MessageSquare },
   ];
 
@@ -327,41 +316,6 @@ const AdminPage = () => {
                     </div>
                   ))
                 )}
-              </div>
-            )}
-
-            {activeTab === "users" && (
-              <div className="bg-muted border border-border overflow-hidden">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-border bg-card">
-                        {["Email", "Registered", "Last Sign In", "Email Confirmed"].map(h => (
-                          <th key={h} className="text-left p-4 text-[0.68rem] tracking-[0.2em] uppercase text-primary font-medium">{h}</th>
-                        ))}
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {users.map(u => (
-                        <tr key={u.id} className="border-b border-border last:border-b-0 hover:bg-primary/[0.04] transition-colors">
-                          <td className="p-4 text-foreground">{u.email}</td>
-                          <td className="p-4 text-muted-foreground">{formatDate(u.created_at)}</td>
-                          <td className="p-4 text-muted-foreground">{u.last_sign_in_at ? formatDate(u.last_sign_in_at) : "Never"}</td>
-                          <td className="p-4">
-                            {u.email_confirmed_at ? (
-                              <span className="inline-block px-3 py-1 text-[0.65rem] tracking-[0.1em] uppercase bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">Confirmed</span>
-                            ) : (
-                              <span className="inline-block px-3 py-1 text-[0.65rem] tracking-[0.1em] uppercase bg-primary/15 text-primary border border-primary/30">Pending</span>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                      {users.length === 0 && (
-                        <tr><td colSpan={4} className="p-8 text-center text-muted-foreground">No users yet</td></tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
               </div>
             )}
 
