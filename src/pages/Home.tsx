@@ -33,7 +33,7 @@ const Home = () => {
         <div
           className="absolute inset-0 bg-cover bg-center animate-[heroZoom_18s_ease-in-out_infinite_alternate]"
           style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(10,10,8,0.3) 0%, rgba(10,10,8,0.6) 60%, hsl(var(--background)) 100%), url(${heroBg})`,
+            backgroundImage: `linear-gradient(to bottom, hsl(var(--background) / 0.3) 0%, hsl(var(--background) / 0.6) 60%, hsl(var(--background)) 100%), url(${heroBg})`,
             transform: "scale(1.05)",
           }}
         />
@@ -107,7 +107,7 @@ const Home = () => {
           {dishes.map((dish) => (
             <div key={dish.name} className="relative overflow-hidden aspect-[3/4] cursor-pointer group">
               <img src={dish.img} alt={dish.name} className="w-full h-full object-cover transition-transform duration-700 brightness-[0.7] group-hover:scale-[1.08]" loading="lazy" width={800} height={1066} />
-              <div className="absolute inset-0 bg-gradient-to-t from-[rgba(10,10,8,0.95)] via-[rgba(10,10,8,0.2)_55%] to-transparent flex flex-col justify-end p-6 lg:p-7">
+              <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-background/20 to-transparent flex flex-col justify-end p-6 lg:p-7">
                 <span className="text-[0.65rem] tracking-[0.2em] uppercase text-primary mb-2">{dish.tag}</span>
                 <h3 className="font-serif text-2xl font-normal text-foreground mb-1 leading-tight">{dish.name}</h3>
                 <p className="text-[0.8rem] text-foreground/55 max-h-0 overflow-hidden opacity-0 group-hover:max-h-[60px] group-hover:opacity-100 transition-all duration-400">{dish.desc}</p>
