@@ -32,6 +32,7 @@ const tabs = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
   { id: "reservations", label: "Reservations", icon: CalendarDays },
   { id: "messages", label: "Messages", icon: MessageSquare },
+  { id: "users", label: "Users", icon: UserCheck },
   { id: "settings", label: "Settings", icon: Settings },
 ] as const;
 
