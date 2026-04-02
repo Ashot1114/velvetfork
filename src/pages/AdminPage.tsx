@@ -61,6 +61,7 @@ const AdminPage = () => {
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [selectedReservation, setSelectedReservation] = useState<Reservation | null>(null);
+  const [users, setUsers] = useState<AppUser[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
 
   useEffect(() => {
