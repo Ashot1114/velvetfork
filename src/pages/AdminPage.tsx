@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { CalendarDays, MessageSquare, LayoutDashboard, Clock, Users, TrendingUp, Eye, Trash2, LogOut, Settings } from "lucide-react";
+import { CalendarDays, MessageSquare, LayoutDashboard, Clock, Users, TrendingUp, Eye, Trash2, LogOut, Settings, UserCheck } from "lucide-react";
 import ChangePasswordForm from "@/components/admin/ChangePasswordForm";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
