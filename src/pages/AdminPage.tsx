@@ -66,14 +66,12 @@ const AdminPage = () => {
     if (!user) return;
     const fetchData = async () => {
       setDataLoading(true);
-      const [resResult, msgResult, usersResult] = await Promise.all([
+      const [resResult, msgResult] = await Promise.all([
         supabase.from("reservations").select("*").order("created_at", { ascending: false }),
         supabase.from("messages").select("*").order("created_at", { ascending: false }),
-        supabase.rpc("get_users"),
       ]);
       if (resResult.data) setReservations(resResult.data);
       if (msgResult.data) setMessages(msgResult.data);
-      if (usersResult.data) setUsers(usersResult.data as unknown as AppUser[]);
       setDataLoading(false);
     };
     fetchData();
