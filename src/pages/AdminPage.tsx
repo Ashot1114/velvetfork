@@ -116,6 +116,7 @@ const AdminPage = () => {
     { label: "Total Reservations", value: reservations.length, icon: CalendarDays },
     { label: "Pending", value: reservations.filter(r => r.status === "new").length, icon: Clock },
     { label: "Total Guests", value: reservations.reduce((sum, r) => sum + r.guests, 0), icon: Users },
+    { label: "Registered Users", value: users.length, icon: UserCheck },
     { label: "New Messages", value: messages.filter(m => m.status === "new").length, icon: MessageSquare },
   ];
 
