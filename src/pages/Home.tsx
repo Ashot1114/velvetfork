@@ -33,7 +33,7 @@ const Home = () => {
         <div
           className="absolute inset-0 bg-cover bg-center animate-[heroZoom_18s_ease-in-out_infinite_alternate]"
           style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(10,10,8,0.3) 0%, rgba(10,10,8,0.6) 60%, hsl(var(--background)) 100%), url(${heroBg})`,
+            backgroundImage: `linear-gradient(to bottom, hsl(var(--background) / 0.3) 0%, hsl(var(--background) / 0.6) 60%, hsl(var(--background)) 100%), url(${heroBg})`,
             transform: "scale(1.05)",
           }}
         />
