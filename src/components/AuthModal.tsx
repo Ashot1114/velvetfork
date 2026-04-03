@@ -77,6 +77,7 @@ const AuthModal = () => {
     setEmail("");
     setPassword("");
     setConfirmPassword("");
+    setPhone("");
     setShowPassword(false);
     setShowConfirm(false);
     setForgotMode(false);
