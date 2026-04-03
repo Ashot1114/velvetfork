@@ -17,7 +17,6 @@ const AuthModal = () => {
   const [loading, setLoading] = useState(false);
   const [forgotMode, setForgotMode] = useState(false);
   const { t } = useLanguage();
-  const { t } = useLanguage();
   const { isOpen, closeAuthModal } = useAuthModal();
 
   if (!isOpen) return null;
