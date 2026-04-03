@@ -11,10 +11,12 @@ const AuthModal = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [phone, setPhone] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [forgotMode, setForgotMode] = useState(false);
+  const { t } = useLanguage();
   const { t } = useLanguage();
   const { isOpen, closeAuthModal } = useAuthModal();
 
