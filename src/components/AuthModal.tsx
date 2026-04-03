@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { X, Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable/index";
 import { toast } from "sonner";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuthModal } from "@/contexts/AuthModalContext";
