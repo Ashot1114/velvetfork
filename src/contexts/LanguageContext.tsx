@@ -65,6 +65,8 @@ const translations: Record<Language, Record<string, string>> = {
     "auth.signingIn": "Signing in...", "auth.signingUp": "Signing up...", "auth.noAccount": "Don\u2019t have an account?", "auth.hasAccount": "Already have an account?",
     "auth.loginSuccess": "Logged in successfully", "auth.registerSuccess": "Account created! Please check your email to verify.", "auth.passwordMismatch": "Passwords do not match", "auth.passwordMin": "Password must be at least 6 characters",
     "auth.loginRequired": "Please sign in to continue",
+    "auth.or": "or",
+    "auth.continueWithGoogle": "Continue with Google",
     "auth.signOut": "Sign Out",
     "auth.forgotPassword": "Forgot password?",
     "auth.forgotDesc": "Enter your email and we\u2019ll send you a reset link.",
