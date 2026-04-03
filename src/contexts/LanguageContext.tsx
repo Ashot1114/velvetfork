@@ -67,6 +67,8 @@ const translations: Record<Language, Record<string, string>> = {
     "auth.loginRequired": "Please sign in to continue",
     "auth.or": "or",
     "auth.continueWithGoogle": "Continue with Google",
+    "auth.continueWithApple": "Continue with Apple",
+    "auth.phone": "Phone Number",
     "auth.signOut": "Sign Out",
     "auth.forgotPassword": "Forgot password?",
     "auth.forgotDesc": "Enter your email and we\u2019ll send you a reset link.",
