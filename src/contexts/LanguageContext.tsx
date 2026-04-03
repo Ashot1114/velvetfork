@@ -415,6 +415,8 @@ const translations: Record<Language, Record<string, string>> = {
     "auth.loginRequired": "Veuillez vous connecter",
     "auth.or": "ou",
     "auth.continueWithGoogle": "Continuer avec Google",
+    "auth.continueWithApple": "Continuer avec Apple",
+    "auth.phone": "Numéro de téléphone",
     "auth.signOut": "D\u00e9connexion",
     "auth.forgotPassword": "Mot de passe oubli\u00e9 ?",
     "auth.forgotDesc": "Entrez votre e-mail, nous vous enverrons un lien de r\u00e9initialisation.",
