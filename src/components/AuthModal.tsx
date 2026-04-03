@@ -180,17 +180,25 @@ const AuthModal = () => {
             </div>
 
             {tab === "register" && (
-              <div className="flex flex-col gap-2">
-                <label className="text-[0.7rem] tracking-[0.2em] uppercase text-primary">
-                  {t("auth.confirmPassword")}
-                </label>
-                <div className="relative">
-                  <input type={showConfirm ? "text" : "password"} required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className={`${inputClass} pr-10`} placeholder="••••••••" />
-                  <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
-                    {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                  </button>
+              <>
+                <div className="flex flex-col gap-2">
+                  <label className="text-[0.7rem] tracking-[0.2em] uppercase text-primary">
+                    {t("auth.phone")}
+                  </label>
+                  <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className={inputClass} placeholder="+1 (555) 000-0000" />
                 </div>
-              </div>
+                <div className="flex flex-col gap-2">
+                  <label className="text-[0.7rem] tracking-[0.2em] uppercase text-primary">
+                    {t("auth.confirmPassword")}
+                  </label>
+                  <div className="relative">
+                    <input type={showConfirm ? "text" : "password"} required value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className={`${inputClass} pr-10`} placeholder="••••••••" />
+                    <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors">
+                      {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                </div>
+              </>
             )}
 
             <button type="submit" disabled={loading} className="w-full font-sans text-[0.78rem] font-medium tracking-[0.18em] uppercase px-10 py-4 bg-primary text-primary-foreground transition-all hover:bg-primary-light disabled:opacity-50" style={{ clipPath: "polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))" }}>
