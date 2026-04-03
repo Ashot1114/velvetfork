@@ -368,6 +368,8 @@ const translations: Record<Language, Record<string, string>> = {
     "auth.signingIn": "Connexion...", "auth.signingUp": "Inscription...", "auth.noAccount": "Pas de compte ?", "auth.hasAccount": "D\u00e9j\u00e0 un compte ?",
     "auth.loginSuccess": "Connect\u00e9 avec succ\u00e8s", "auth.registerSuccess": "Compte cr\u00e9\u00e9 ! V\u00e9rifiez votre e-mail.", "auth.passwordMismatch": "Les mots de passe ne correspondent pas", "auth.passwordMin": "Le mot de passe doit avoir au moins 6 caract\u00e8res",
     "auth.loginRequired": "Veuillez vous connecter",
+    "auth.or": "ou",
+    "auth.continueWithGoogle": "Continuer avec Google",
     "auth.signOut": "D\u00e9connexion",
     "auth.forgotPassword": "Mot de passe oubli\u00e9 ?",
     "auth.forgotDesc": "Entrez votre e-mail, nous vous enverrons un lien de r\u00e9initialisation.",
