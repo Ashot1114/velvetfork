@@ -47,7 +47,7 @@ const AuthModal = () => {
       return;
     }
     setLoading(true);
-    const { error } = await supabase.auth.signUp({ email, password });
+    const { error } = await supabase.auth.signUp({ email, password, options: { data: { phone } } });
     setLoading(false);
     if (error) {
       toast.error(error.message);
