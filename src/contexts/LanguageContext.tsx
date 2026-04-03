@@ -484,6 +484,8 @@ const translations: Record<Language, Record<string, string>> = {
     "auth.loginRequired": "\u8bf7\u767b\u5f55\u4ee5\u7ee7\u7eed",
     "auth.or": "或",
     "auth.continueWithGoogle": "使用 Google 继续",
+    "auth.continueWithApple": "使用 Apple 继续",
+    "auth.phone": "电话号码",
     "auth.signOut": "\u9000\u51fa",
     "auth.forgotPassword": "\u5fd8\u8bb0\u5bc6\u7801\uff1f",
     "auth.forgotDesc": "\u8f93\u5165\u60a8\u7684\u7535\u5b50\u90ae\u4ef6\uff0c\u6211\u4eec\u5c06\u53d1\u9001\u91cd\u7f6e\u94fe\u63a5\u3002",
