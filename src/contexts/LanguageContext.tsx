@@ -173,6 +173,8 @@ const translations: Record<Language, Record<string, string>> = {
     "auth.loginRequired": "\u0412\u043e\u0439\u0434\u0438\u0442\u0435, \u0447\u0442\u043e\u0431\u044b \u043f\u0440\u043e\u0434\u043e\u043b\u0436\u0438\u0442\u044c",
     "auth.or": "или",
     "auth.continueWithGoogle": "Продолжить с Google",
+    "auth.continueWithApple": "Продолжить с Apple",
+    "auth.phone": "Номер телефона",
     "auth.signOut": "\u0412\u044b\u0439\u0442\u0438",
     "auth.forgotPassword": "\u0417\u0430\u0431\u044b\u043b\u0438 \u043f\u0430\u0440\u043e\u043b\u044c?",
     "auth.forgotDesc": "\u0412\u0432\u0435\u0434\u0438\u0442\u0435 email, \u043c\u044b \u043e\u0442\u043f\u0440\u0430\u0432\u0438\u043c \u0441\u0441\u044b\u043b\u043a\u0443 \u0434\u043b\u044f \u0441\u0431\u0440\u043e\u0441\u0430.",
