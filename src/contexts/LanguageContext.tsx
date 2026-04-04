@@ -72,7 +72,7 @@ const translations: Record<Language, Record<string, string>> = {
     "auth.signOut": "Sign Out",
     "auth.forgotPassword": "Forgot password?",
     "auth.forgotDesc": "Enter your email and we\u2019ll send you a reset link.",
-    "auth.sendResetLink": "Send Reset Link",
+    "auth.sendResetLink": "Send Code",
     "auth.sending": "Sending...",
     "auth.backToLogin": "Back to login",
     "auth.resetEmailSent": "Verification code sent! Check your email.",
