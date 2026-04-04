@@ -21,6 +21,7 @@ const AuthModal = () => {
   const [otpCode, setOtpCode] = useState("");
   const { t } = useLanguage();
   const { isOpen, closeAuthModal } = useAuthModal();
+  const navigate = useNavigate();
 
   if (!isOpen) return null;
 
