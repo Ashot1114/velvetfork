@@ -62,15 +62,36 @@ const AuthModal = () => {
   const handleForgotPassword = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
-    });
+    const { error } = await supabase.auth.resetPasswordForEmail(email);
     setLoading(false);
     if (error) {
       toast.error(error.message);
     } else {
       toast.success(t("auth.resetEmailSent"));
-      setForgotMode(false);
+      setOtpMode(true);
+    }
+  };
+
+  const handleVerifyOtp = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (otpCode.length !== 6) {
+      toast.error(t("auth.otpLength"));
+      return;
+    }
+    setLoading(true);
+    const { error } = await supabase.auth.verifyOtp({
+      email,
+      token: otpCode,
+      type: "recovery",
+    });
+    setLoading(false);
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success(t("auth.otpVerified"));
+      closeAuthModal();
+      resetForm();
+      navigate("/reset-password?verified=true");
     }
   };
 
