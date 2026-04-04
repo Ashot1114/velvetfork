@@ -162,6 +162,34 @@ const AuthModal = () => {
 
         {/* Form */}
         {forgotMode ? (
+          otpMode ? (
+            <form onSubmit={handleVerifyOtp} className="p-8 space-y-5">
+              <p className="text-sm text-muted-foreground">{t("auth.otpDesc")}</p>
+              <div className="flex flex-col gap-2">
+                <label className="text-[0.7rem] tracking-[0.2em] uppercase text-primary">
+                  {t("auth.verificationCode")}
+                </label>
+                <input
+                  type="text"
+                  required
+                  maxLength={6}
+                  value={otpCode}
+                  onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                  className={`${inputClass} text-center text-2xl tracking-[0.5em] font-mono`}
+                  placeholder="000000"
+                  autoFocus
+                />
+              </div>
+              <button type="submit" disabled={loading || otpCode.length !== 6} className="w-full font-sans text-[0.78rem] font-medium tracking-[0.18em] uppercase px-10 py-4 bg-primary text-primary-foreground transition-all hover:bg-primary-light disabled:opacity-50" style={{ clipPath: "polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px))" }}>
+                {loading ? t("auth.verifying") : t("auth.verifyCode")}
+              </button>
+              <p className="text-center text-xs text-muted-foreground">
+                <button type="button" onClick={() => { setOtpMode(false); setOtpCode(""); }} className="text-primary hover:underline">
+                  {t("auth.backToLogin")}
+                </button>
+              </p>
+            </form>
+          ) : (
           <form onSubmit={handleForgotPassword} className="p-8 space-y-5">
             <p className="text-sm text-muted-foreground">{t("auth.forgotDesc")}</p>
             <div className="flex flex-col gap-2">
@@ -179,6 +207,7 @@ const AuthModal = () => {
               </button>
             </p>
           </form>
+          )
         ) : (
           <form onSubmit={tab === "login" ? handleLogin : handleRegister} className="p-8 space-y-5">
             <div className="flex flex-col gap-2">
