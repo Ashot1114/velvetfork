@@ -17,7 +17,8 @@ const ResetPasswordPage = () => {
 
   useEffect(() => {
     const hash = window.location.hash;
-    if (hash.includes("type=recovery")) {
+    const params = new URLSearchParams(window.location.search);
+    if (hash.includes("type=recovery") || params.get("verified") === "true") {
       setValid(true);
     }
   }, []);
