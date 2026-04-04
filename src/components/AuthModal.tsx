@@ -16,6 +16,8 @@ const AuthModal = () => {
   const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [forgotMode, setForgotMode] = useState(false);
+  const [otpMode, setOtpMode] = useState(false);
+  const [otpCode, setOtpCode] = useState("");
   const { t } = useLanguage();
   const { isOpen, closeAuthModal } = useAuthModal();
 
