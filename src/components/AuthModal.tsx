@@ -105,6 +105,8 @@ const AuthModal = () => {
     setShowPassword(false);
     setShowConfirm(false);
     setForgotMode(false);
+    setOtpMode(false);
+    setOtpCode("");
   };
 
   const inputClass = "w-full bg-accent border border-primary/20 text-foreground px-4 py-3 font-sans text-sm font-light outline-none focus:border-primary transition-colors placeholder:text-muted-foreground";
