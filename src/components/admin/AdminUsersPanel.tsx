@@ -1,13 +1,17 @@
 import { useEffect, useState } from "react";
-import { ShieldCheck, ShieldOff, RefreshCw } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+
+const ROLES = ["admin", "manager", "staff", "editor", "user"] as const;
+type Role = (typeof ROLES)[number];
 
 type AdminUser = {
   id: string;
   email: string;
   created_at: string;
   last_sign_in_at: string | null;
+  role: Role | null;
   is_admin: boolean;
 };
 
@@ -17,9 +21,9 @@ const AdminUsersPanel = () => {
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState<string | null>(null);
 
-  const call = async (action: "list" | "grant" | "revoke", userId?: string) => {
+  const call = async (action: "list" | "setRole", userId?: string, role?: Role | null) => {
     const { data, error } = await supabase.functions.invoke("admin-users", {
-      body: { action, userId },
+      body: { action, userId, role },
     });
     if (error || (data as { error?: string })?.error) {
       throw new Error((data as { error?: string })?.error || "Request failed");
@@ -41,11 +45,12 @@ const AdminUsersPanel = () => {
 
   useEffect(() => { load(); }, []);
 
-  const toggle = async (u: AdminUser) => {
+  const setRole = async (u: AdminUser, value: string) => {
+    const role = value === "none" ? null : (value as Role);
     setBusyId(u.id);
     try {
-      await call(u.is_admin ? "revoke" : "grant", u.id);
-      toast.success(u.is_admin ? `Admin removed from ${u.email}` : `${u.email} is now an admin`);
+      await call("setRole", u.id, role);
+      toast.success(role ? `${u.email} is now ${role}` : `Role removed from ${u.email}`);
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "Update failed");
     }
@@ -58,8 +63,8 @@ const AdminUsersPanel = () => {
     <div className="bg-muted border border-border">
       <div className="p-6 border-b border-border flex items-center justify-between">
         <div>
-          <h3 className="text-[0.72rem] tracking-[0.2em] uppercase text-primary font-medium">Admin Access</h3>
-          <p className="text-muted-foreground text-xs mt-1">Grant or remove the admin role for registered email addresses.</p>
+          <h3 className="text-[0.72rem] tracking-[0.2em] uppercase text-primary font-medium">Roles &amp; Access</h3>
+          <p className="text-muted-foreground text-xs mt-1">Assign a role to each registered email address.</p>
         </div>
         <button onClick={load} className="text-muted-foreground hover:text-primary transition-colors" aria-label="Refresh users">
           <RefreshCw className="w-4 h-4" />
@@ -73,7 +78,7 @@ const AdminUsersPanel = () => {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border bg-card">
-                {["Email", "Registered", "Last sign in", "Role", "Action"].map((h) => (
+                {["Email", "Registered", "Last sign in", "Current role", "Assign role"].map((h) => (
                   <th key={h} className="text-left p-4 text-[0.68rem] tracking-[0.2em] uppercase text-primary font-medium">{h}</th>
                 ))}
               </tr>
@@ -86,18 +91,21 @@ const AdminUsersPanel = () => {
                   <td className="p-4 text-muted-foreground">{fmt(u.last_sign_in_at)}</td>
                   <td className="p-4">
                     <span className={`inline-block px-3 py-1 text-[0.65rem] tracking-[0.1em] uppercase ${u.is_admin ? "bg-primary/15 text-primary border border-primary/30" : "bg-muted-foreground/15 text-muted-foreground border border-muted-foreground/20"}`}>
-                      {u.is_admin ? "Admin" : "User"}
+                      {u.role ?? "None"}
                     </span>
                   </td>
                   <td className="p-4">
-                    <button
-                      disabled={busyId === u.id || (u.is_admin && u.id === callerId)}
-                      onClick={() => toggle(u)}
-                      className="flex items-center gap-1.5 text-[0.68rem] tracking-[0.12em] uppercase text-primary hover:text-primary-light transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                    <select
+                      value={u.role ?? "none"}
+                      disabled={busyId === u.id || u.id === callerId}
+                      onChange={(e) => setRole(u, e.target.value)}
+                      className="bg-card border border-border text-foreground text-[0.72rem] tracking-[0.08em] uppercase px-3 py-2 focus:outline-none focus:border-primary disabled:opacity-40 disabled:cursor-not-allowed"
                     >
-                      {u.is_admin ? <ShieldOff className="w-3.5 h-3.5" /> : <ShieldCheck className="w-3.5 h-3.5" />}
-                      {u.is_admin ? "Remove admin" : "Make admin"}
-                    </button>
+                      <option value="none">No role</option>
+                      {ROLES.map((r) => (
+                        <option key={r} value={r}>{r}</option>
+                      ))}
+                    </select>
                   </td>
                 </tr>
               ))}

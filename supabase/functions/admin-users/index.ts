@@ -5,6 +5,8 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+const ROLES = ["admin", "manager", "staff", "editor", "user"] as const;
+
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 
@@ -35,13 +37,18 @@ Deno.serve(async (req) => {
       const targetId = body.userId;
       if (!targetId || typeof targetId !== "string") return json({ error: "userId is required." }, 400);
 
-      if (action === "grant") {
-        const { error } = await admin.from("user_roles").insert({ user_id: targetId, role: "admin" });
-        if (error && !`${error.message}`.includes("duplicate")) return json({ error: "Failed to grant admin." }, 500);
-      } else if (action === "revoke") {
-        if (targetId === callerId) return json({ error: "You cannot remove your own admin role." }, 400);
-        const { error } = await admin.from("user_roles").delete().eq("user_id", targetId).eq("role", "admin");
-        if (error) return json({ error: "Failed to revoke admin." }, 500);
+      if (action === "setRole") {
+        const role = body.role;
+        if (role !== null && !ROLES.includes(role)) return json({ error: "Unknown role." }, 400);
+        if (targetId === callerId && role !== "admin") {
+          return json({ error: "You cannot change your own admin role." }, 400);
+        }
+        const { error: delErr } = await admin.from("user_roles").delete().eq("user_id", targetId);
+        if (delErr) return json({ error: "Failed to update role." }, 500);
+        if (role) {
+          const { error } = await admin.from("user_roles").insert({ user_id: targetId, role });
+          if (error) return json({ error: "Failed to update role." }, 500);
+        }
       } else {
         return json({ error: "Unknown action." }, 400);
       }
@@ -50,15 +57,16 @@ Deno.serve(async (req) => {
     const { data: list, error: listErr } = await admin.auth.admin.listUsers({ page: 1, perPage: 200 });
     if (listErr) return json({ error: "Failed to load users." }, 500);
 
-    const { data: roles } = await admin.from("user_roles").select("user_id, role").eq("role", "admin");
-    const adminIds = new Set((roles ?? []).map((r) => r.user_id));
+    const { data: roles } = await admin.from("user_roles").select("user_id, role");
+    const roleMap = new Map((roles ?? []).map((r) => [r.user_id, r.role as string]));
 
     const users = list.users.map((u) => ({
       id: u.id,
       email: u.email ?? "",
       created_at: u.created_at,
       last_sign_in_at: u.last_sign_in_at ?? null,
-      is_admin: adminIds.has(u.id),
+      role: roleMap.get(u.id) ?? null,
+      is_admin: roleMap.get(u.id) === "admin",
     })).sort((a, b) => Number(b.is_admin) - Number(a.is_admin) || a.email.localeCompare(b.email));
 
     return json({ users, callerId });
