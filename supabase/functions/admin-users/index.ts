@@ -63,6 +63,10 @@ Deno.serve(async (req) => {
     const users = list.users.map((u) => ({
       id: u.id,
       email: u.email ?? "",
+      name: (u.user_metadata?.full_name ?? u.user_metadata?.name ?? "") as string,
+      phone: (u.phone ?? u.user_metadata?.phone ?? "") as string,
+      provider: (u.app_metadata?.provider ?? "email") as string,
+      email_confirmed_at: u.email_confirmed_at ?? null,
       created_at: u.created_at,
       last_sign_in_at: u.last_sign_in_at ?? null,
       role: roleMap.get(u.id) ?? null,
