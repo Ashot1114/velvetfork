@@ -9,6 +9,10 @@ type Role = (typeof ROLES)[number];
 type AdminUser = {
   id: string;
   email: string;
+  name: string;
+  phone: string;
+  provider: string;
+  email_confirmed_at: string | null;
   created_at: string;
   last_sign_in_at: string | null;
   role: Role | null;
@@ -57,14 +61,17 @@ const AdminUsersPanel = () => {
     setBusyId(null);
   };
 
-  const fmt = (d: string | null) => (d ? new Date(d).toLocaleDateString() : "—");
+  const fmt = (d: string | null) =>
+    d ? new Date(d).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" }) : "—";
 
   return (
     <div className="bg-muted border border-border">
       <div className="p-6 border-b border-border flex items-center justify-between">
         <div>
           <h3 className="text-[0.72rem] tracking-[0.2em] uppercase text-primary font-medium">Roles &amp; Access</h3>
-          <p className="text-muted-foreground text-xs mt-1">Assign a role to each registered email address.</p>
+          <p className="text-muted-foreground text-xs mt-1">
+            {users.length} registered {users.length === 1 ? "account" : "accounts"} — details and role assignment.
+          </p>
         </div>
         <button onClick={load} className="text-muted-foreground hover:text-primary transition-colors" aria-label="Refresh users">
           <RefreshCw className="w-4 h-4" />
@@ -78,7 +85,7 @@ const AdminUsersPanel = () => {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border bg-card">
-                {["Email", "Registered", "Last sign in", "Current role", "Assign role"].map((h) => (
+                {["Name", "Email", "Phone", "Sign-in method", "Verified", "Registered", "Last sign in", "Current role", "Assign role"].map((h) => (
                   <th key={h} className="text-left p-4 text-[0.68rem] tracking-[0.2em] uppercase text-primary font-medium">{h}</th>
                 ))}
               </tr>
@@ -86,9 +93,17 @@ const AdminUsersPanel = () => {
             <tbody>
               {users.map((u) => (
                 <tr key={u.id} className="border-b border-border last:border-b-0 hover:bg-primary/[0.04] transition-colors">
-                  <td className="p-4 text-foreground">{u.email}</td>
-                  <td className="p-4 text-muted-foreground">{fmt(u.created_at)}</td>
-                  <td className="p-4 text-muted-foreground">{fmt(u.last_sign_in_at)}</td>
+                  <td className="p-4 text-foreground whitespace-nowrap">{u.name || "—"}</td>
+                  <td className="p-4 text-foreground">{u.email || "—"}</td>
+                  <td className="p-4 text-muted-foreground whitespace-nowrap">{u.phone || "—"}</td>
+                  <td className="p-4 text-muted-foreground capitalize">{u.provider}</td>
+                  <td className="p-4">
+                    <span className={`text-[0.65rem] tracking-[0.1em] uppercase ${u.email_confirmed_at ? "text-primary" : "text-muted-foreground"}`}>
+                      {u.email_confirmed_at ? "Yes" : "No"}
+                    </span>
+                  </td>
+                  <td className="p-4 text-muted-foreground whitespace-nowrap">{fmt(u.created_at)}</td>
+                  <td className="p-4 text-muted-foreground whitespace-nowrap">{fmt(u.last_sign_in_at)}</td>
                   <td className="p-4">
                     <span className={`inline-block px-3 py-1 text-[0.65rem] tracking-[0.1em] uppercase ${u.is_admin ? "bg-primary/15 text-primary border border-primary/30" : "bg-muted-foreground/15 text-muted-foreground border border-muted-foreground/20"}`}>
                       {u.role ?? "None"}
@@ -110,7 +125,7 @@ const AdminUsersPanel = () => {
                 </tr>
               ))}
               {users.length === 0 && (
-                <tr><td colSpan={5} className="p-8 text-center text-muted-foreground">No users found</td></tr>
+                <tr><td colSpan={9} className="p-8 text-center text-muted-foreground">No users found</td></tr>
               )}
             </tbody>
           </table>
