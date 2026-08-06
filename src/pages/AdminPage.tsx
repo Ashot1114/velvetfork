@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { CalendarDays, MessageSquare, LayoutDashboard, Clock, Users, TrendingUp, Eye, Trash2, LogOut, Settings } from "lucide-react";
+import { CalendarDays, MessageSquare, LayoutDashboard, Clock, Users, TrendingUp, Eye, Trash2, LogOut, Settings, ShieldCheck } from "lucide-react";
 import ChangePasswordForm from "@/components/admin/ChangePasswordForm";
+import AdminUsersPanel from "@/components/admin/AdminUsersPanel";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
@@ -33,6 +34,7 @@ const tabs = [
   { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
   { id: "reservations", label: "Reservations", icon: CalendarDays },
   { id: "messages", label: "Messages", icon: MessageSquare },
+  { id: "admins", label: "Admins", icon: ShieldCheck },
   { id: "settings", label: "Settings", icon: Settings },
 ] as const;
 
@@ -318,6 +320,8 @@ const AdminPage = () => {
                 )}
               </div>
             )}
+
+            {activeTab === "admins" && <AdminUsersPanel />}
 
             {activeTab === "settings" && (
               <div className="space-y-6">
