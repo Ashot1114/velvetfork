@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { RefreshCw } from "lucide-react";
+import { RefreshCw, Ban, CheckCircle2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -17,6 +17,7 @@ type AdminUser = {
   last_sign_in_at: string | null;
   role: Role | null;
   is_admin: boolean;
+  blocked: boolean;
 };
 
 const AdminUsersPanel = () => {
@@ -25,9 +26,14 @@ const AdminUsersPanel = () => {
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState<string | null>(null);
 
-  const call = async (action: "list" | "setRole", userId?: string, role?: Role | null) => {
+  const call = async (
+    action: "list" | "setRole" | "setBlocked",
+    userId?: string,
+    role?: Role | null,
+    blocked?: boolean,
+  ) => {
     const { data, error } = await supabase.functions.invoke("admin-users", {
-      body: { action, userId, role },
+      body: { action, userId, role, blocked },
     });
     if (error || (data as { error?: string })?.error) {
       throw new Error((data as { error?: string })?.error || "Request failed");
@@ -61,6 +67,17 @@ const AdminUsersPanel = () => {
     setBusyId(null);
   };
 
+  const toggleBlocked = async (u: AdminUser) => {
+    setBusyId(u.id);
+    try {
+      await call("setBlocked", u.id, undefined, !u.blocked);
+      toast.success(!u.blocked ? `${u.email} blocked` : `${u.email} unblocked`);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Update failed");
+    }
+    setBusyId(null);
+  };
+
   const fmt = (d: string | null) =>
     d ? new Date(d).toLocaleString(undefined, { dateStyle: "medium", timeStyle: "short" }) : "—";
 
@@ -85,14 +102,14 @@ const AdminUsersPanel = () => {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border bg-card">
-                {["Name", "Email", "Phone", "Sign-in method", "Verified", "Registered", "Last sign in", "Current role", "Assign role"].map((h) => (
+                {["Name", "Email", "Phone", "Sign-in method", "Verified", "Registered", "Last sign in", "Current role", "Assign role", "Status", "Access"].map((h) => (
                   <th key={h} className="text-left p-4 text-[0.68rem] tracking-[0.2em] uppercase text-primary font-medium">{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {users.map((u) => (
-                <tr key={u.id} className="border-b border-border last:border-b-0 hover:bg-primary/[0.04] transition-colors">
+                <tr key={u.id} className={`border-b border-border last:border-b-0 hover:bg-primary/[0.04] transition-colors ${u.blocked ? "opacity-60" : ""}`}>
                   <td className="p-4 text-foreground whitespace-nowrap">{u.name || "—"}</td>
                   <td className="p-4 text-foreground">{u.email || "—"}</td>
                   <td className="p-4 text-muted-foreground whitespace-nowrap">{u.phone || "—"}</td>
@@ -122,10 +139,26 @@ const AdminUsersPanel = () => {
                       ))}
                     </select>
                   </td>
+                  <td className="p-4">
+                    <span className={`inline-block px-3 py-1 text-[0.65rem] tracking-[0.1em] uppercase ${u.blocked ? "bg-destructive/15 text-destructive border border-destructive/30" : "bg-primary/10 text-primary border border-primary/25"}`}>
+                      {u.blocked ? "Blocked" : "Active"}
+                    </span>
+                  </td>
+                  <td className="p-4">
+                    <button
+                      type="button"
+                      onClick={() => toggleBlocked(u)}
+                      disabled={busyId === u.id || u.id === callerId}
+                      className="inline-flex items-center gap-2 border border-border bg-card px-3 py-2 text-[0.68rem] tracking-[0.1em] uppercase text-foreground transition-colors hover:border-primary hover:text-primary disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                      {u.blocked ? <CheckCircle2 className="w-3.5 h-3.5" /> : <Ban className="w-3.5 h-3.5" />}
+                      {u.blocked ? "Unblock" : "Block"}
+                    </button>
+                  </td>
                 </tr>
               ))}
               {users.length === 0 && (
-                <tr><td colSpan={9} className="p-8 text-center text-muted-foreground">No users found</td></tr>
+                <tr><td colSpan={11} className="p-8 text-center text-muted-foreground">No users found</td></tr>
               )}
             </tbody>
           </table>
