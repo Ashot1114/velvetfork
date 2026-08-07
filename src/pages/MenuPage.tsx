@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PageHero from "@/components/PageHero";
+import { supabase } from "@/integrations/supabase/client";
 import menuHero from "@/assets/menu-hero.jpg";
 import dishDuck from "@/assets/dish-duck.jpg";
 import dishLobster from "@/assets/dish-lobster.jpg";
@@ -45,7 +46,19 @@ const categoryTranslationKeys: Record<string, string> = {
 const MenuPage = () => {
   const [active, setActive] = useState<string>("Starters");
   const items = menuItems[active as keyof typeof menuItems] || [];
+  const [dbItems, setDbItems] = useState<{ id: string; name: string; description: string; price: number; category: string; image_url: string; tag: string }[]>([]);
   const { t } = useLanguage();
+
+  useEffect(() => {
+    supabase
+      .from("products")
+      .select("id,name,description,price,category,image_url,tag")
+      .eq("is_available", true)
+      .order("sort_order", { ascending: true })
+      .then(({ data }) => setDbItems(data ?? []));
+  }, []);
+
+  const extraItems = dbItems.filter((p) => p.category === active);
 
   return (
     <div className="min-h-screen">
@@ -76,6 +89,21 @@ const MenuPage = () => {
                 <span className="font-serif text-lg text-primary">{item.price}</span>
                 {item.tag && (
                   <span className="inline-block ml-3 text-[0.58rem] tracking-[0.15em] uppercase px-2 py-0.5 border border-primary/40 text-primary align-middle">{t(`menu.tag.${item.tag.toLowerCase()}`)}</span>
+                )}
+              </div>
+            </div>
+          ))}
+          {extraItems.map((item) => (
+            <div key={item.id} className="flex gap-6 items-start p-8 bg-muted border border-transparent transition-all hover:border-primary/20 hover:bg-accent">
+              {item.image_url && (
+                <img src={item.image_url} alt={item.name} className="w-[90px] h-[90px] flex-shrink-0 object-cover" style={{ clipPath: "polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px))" }} loading="lazy" />
+              )}
+              <div className="flex-1">
+                <h3 className="font-serif text-lg font-normal text-foreground mb-1">{item.name}</h3>
+                <p className="text-[0.8rem] text-muted-foreground leading-relaxed mb-2">{item.description}</p>
+                <span className="font-serif text-lg text-primary">${Number(item.price).toFixed(2)}</span>
+                {item.tag && (
+                  <span className="inline-block ml-3 text-[0.58rem] tracking-[0.15em] uppercase px-2 py-0.5 border border-primary/40 text-primary align-middle">{item.tag}</span>
                 )}
               </div>
             </div>
