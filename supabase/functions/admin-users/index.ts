@@ -49,6 +49,15 @@ Deno.serve(async (req) => {
           const { error } = await admin.from("user_roles").insert({ user_id: targetId, role });
           if (error) return json({ error: "Failed to update role." }, 500);
         }
+      } else if (action === "setBlocked") {
+        const blocked = body.blocked === true;
+        if (targetId === callerId) {
+          return json({ error: "You cannot block your own account." }, 400);
+        }
+        const { error } = await admin.auth.admin.updateUserById(targetId, {
+          ban_duration: blocked ? "876000h" : "none",
+        });
+        if (error) return json({ error: "Failed to update block status." }, 500);
       } else {
         return json({ error: "Unknown action." }, 400);
       }
@@ -71,6 +80,10 @@ Deno.serve(async (req) => {
       last_sign_in_at: u.last_sign_in_at ?? null,
       role: roleMap.get(u.id) ?? null,
       is_admin: roleMap.get(u.id) === "admin",
+      blocked: Boolean(
+        (u as unknown as { banned_until?: string | null }).banned_until &&
+          new Date((u as unknown as { banned_until: string }).banned_until) > new Date(),
+      ),
     })).sort((a, b) => Number(b.is_admin) - Number(a.is_admin) || a.email.localeCompare(b.email));
 
     return json({ users, callerId });
