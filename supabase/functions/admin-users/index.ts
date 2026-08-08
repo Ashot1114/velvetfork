@@ -58,6 +58,13 @@ Deno.serve(async (req) => {
           ban_duration: blocked ? "876000h" : "none",
         });
         if (error) return json({ error: "Failed to update block status." }, 500);
+      } else if (action === "setPassword") {
+        const password = body.password;
+        if (typeof password !== "string" || password.length < 8 || password.length > 72) {
+          return json({ error: "Password must be between 8 and 72 characters." }, 400);
+        }
+        const { error } = await admin.auth.admin.updateUserById(targetId, { password });
+        if (error) return json({ error: error.message || "Failed to set password." }, 500);
       } else {
         return json({ error: "Unknown action." }, 400);
       }
