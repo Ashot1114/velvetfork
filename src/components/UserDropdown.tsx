@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { User, LogOut, ChevronDown, History } from "lucide-react";
+import { User, LogOut, ChevronDown, History, ShieldCheck } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { useAuthModal } from "@/contexts/AuthModalContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -9,6 +10,7 @@ const UserDropdown = () => {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const { user, signOut } = useAuth();
+  const { isAdmin } = useIsAdmin();
   const { openAuthModal } = useAuthModal();
   const { t } = useLanguage();
 
@@ -55,6 +57,16 @@ const UserDropdown = () => {
             <History className="w-3.5 h-3.5" />
             {t("profile.myReservations")}
           </Link>
+          {isAdmin && (
+            <Link
+              to="/admin"
+              onClick={() => setOpen(false)}
+              className="w-full px-4 py-2 text-sm text-foreground/70 hover:text-primary hover:bg-primary/5 transition-colors flex items-center gap-2"
+            >
+              <ShieldCheck className="w-3.5 h-3.5" />
+              Admin Panel
+            </Link>
+          )}
           <button
             onClick={() => { signOut(); setOpen(false); }}
             className="w-full text-left px-4 py-2 text-sm text-foreground/70 hover:text-primary hover:bg-primary/5 transition-colors flex items-center gap-2"

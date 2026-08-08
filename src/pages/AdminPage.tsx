@@ -6,6 +6,7 @@ import AdminUsersPanel from "@/components/admin/AdminUsersPanel";
 import AdminProductsPanel from "@/components/admin/AdminProductsPanel";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { toast } from "sonner";
 
 type Reservation = {
@@ -52,6 +53,7 @@ const statusColors: Record<string, string> = {
 
 const AdminPage = () => {
   const { user, loading: authLoading, signOut } = useAuth();
+  const { isAdmin, loading: roleLoading } = useIsAdmin();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<TabId>("dashboard");
   const [reservations, setReservations] = useState<Reservation[]>([]);
@@ -64,7 +66,10 @@ const AdminPage = () => {
     if (!authLoading && !user) {
       navigate("/login");
     }
-  }, [user, authLoading, navigate]);
+    if (!roleLoading && user && !isAdmin) {
+      navigate("/profile");
+    }
+  }, [user, authLoading, isAdmin, roleLoading, navigate]);
 
   useEffect(() => {
     if (!user) return;
@@ -102,7 +107,7 @@ const AdminPage = () => {
     toast.success("Message deleted");
   };
 
-  if (authLoading || !user) {
+  if (authLoading || roleLoading || !user || !isAdmin) {
     return <div className="min-h-screen flex items-center justify-center text-muted-foreground">Loading...</div>;
   }
 
