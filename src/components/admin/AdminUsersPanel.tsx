@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { RefreshCw, Ban, CheckCircle2 } from "lucide-react";
+import { RefreshCw, Ban, CheckCircle2, KeyRound } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -25,15 +25,19 @@ const AdminUsersPanel = () => {
   const [callerId, setCallerId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [busyId, setBusyId] = useState<string | null>(null);
+  const [pwUser, setPwUser] = useState<AdminUser | null>(null);
+  const [pwValue, setPwValue] = useState("");
+  const [pwSaving, setPwSaving] = useState(false);
 
   const call = async (
-    action: "list" | "setRole" | "setBlocked",
+    action: "list" | "setRole" | "setBlocked" | "setPassword",
     userId?: string,
     role?: Role | null,
     blocked?: boolean,
+    password?: string,
   ) => {
     const { data, error } = await supabase.functions.invoke("admin-users", {
-      body: { action, userId, role, blocked },
+      body: { action, userId, role, blocked, password },
     });
     if (error || (data as { error?: string })?.error) {
       throw new Error((data as { error?: string })?.error || "Request failed");
@@ -76,6 +80,22 @@ const AdminUsersPanel = () => {
       toast.error(e instanceof Error ? e.message : "Update failed");
     }
     setBusyId(null);
+  };
+
+  const savePassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!pwUser) return;
+    if (pwValue.length < 8) { toast.error("Password must be at least 8 characters"); return; }
+    setPwSaving(true);
+    try {
+      await call("setPassword", pwUser.id, undefined, undefined, pwValue);
+      toast.success(`New password set for ${pwUser.email}`);
+      setPwUser(null);
+      setPwValue("");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Failed to set password");
+    }
+    setPwSaving(false);
   };
 
   const fmt = (d: string | null) =>
