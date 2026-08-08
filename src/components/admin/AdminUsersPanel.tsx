@@ -122,7 +122,7 @@ const AdminUsersPanel = () => {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border bg-card">
-                {["Name", "Email", "Phone", "Sign-in method", "Verified", "Registered", "Last sign in", "Current role", "Assign role", "Status", "Access"].map((h) => (
+                {["Name", "Email", "Phone", "Sign-in method", "Verified", "Registered", "Last sign in", "Current role", "Assign role", "Status", "Access", "Password"].map((h) => (
                   <th key={h} className="text-left p-4 text-[0.68rem] tracking-[0.2em] uppercase text-primary font-medium">{h}</th>
                 ))}
               </tr>
@@ -175,13 +175,56 @@ const AdminUsersPanel = () => {
                       {u.blocked ? "Unblock" : "Block"}
                     </button>
                   </td>
+                  <td className="p-4">
+                    <button
+                      type="button"
+                      onClick={() => { setPwUser(u); setPwValue(""); }}
+                      className="inline-flex items-center gap-2 border border-border bg-card px-3 py-2 text-[0.68rem] tracking-[0.1em] uppercase text-foreground transition-colors hover:border-primary hover:text-primary"
+                    >
+                      <KeyRound className="w-3.5 h-3.5" />
+                      Change
+                    </button>
+                  </td>
                 </tr>
               ))}
               {users.length === 0 && (
-                <tr><td colSpan={11} className="p-8 text-center text-muted-foreground">No users found</td></tr>
+                <tr><td colSpan={12} className="p-8 text-center text-muted-foreground">No users found</td></tr>
               )}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {pwUser && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 p-4" onClick={() => setPwUser(null)}>
+          <form
+            onClick={(e) => e.stopPropagation()}
+            onSubmit={savePassword}
+            className="w-full max-w-md border border-border bg-card p-8"
+          >
+            <h4 className="text-[0.72rem] tracking-[0.2em] uppercase text-primary font-medium">Set new password</h4>
+            <p className="mt-2 text-sm text-muted-foreground">{pwUser.email}</p>
+            <input
+              type="text"
+              autoFocus
+              value={pwValue}
+              onChange={(e) => setPwValue(e.target.value)}
+              placeholder="New password (min. 8 characters)"
+              maxLength={72}
+              className="mt-6 w-full border border-border bg-background px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none"
+            />
+            <p className="mt-3 text-xs text-muted-foreground">
+              Share this password with the user and ask them to change it after signing in.
+            </p>
+            <div className="mt-6 flex gap-3">
+              <button type="submit" disabled={pwSaving} className="px-6 py-3 text-[0.7rem] tracking-[0.15em] uppercase bg-primary text-primary-foreground hover:bg-primary-light transition-colors disabled:opacity-50">
+                {pwSaving ? "Saving..." : "Save password"}
+              </button>
+              <button type="button" onClick={() => setPwUser(null)} className="px-6 py-3 text-[0.7rem] tracking-[0.15em] uppercase border border-border text-muted-foreground hover:text-primary hover:border-primary/30 transition-colors">
+                Cancel
+              </button>
+            </div>
+          </form>
         </div>
       )}
     </div>
