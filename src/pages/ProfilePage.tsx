@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useIsAdmin } from "@/hooks/useIsAdmin";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { User, Calendar, Clock, Users, FileText } from "lucide-react";
+import { User, Calendar, Clock, Users, FileText, ShieldCheck } from "lucide-react";
+import { Link } from "react-router-dom";
 import SectionHeader from "@/components/SectionHeader";
 
 interface Reservation {
@@ -29,6 +31,7 @@ const statusColors: Record<string, string> = {
 
 const ProfilePage = () => {
   const { user, loading: authLoading } = useAuth();
+  const { isAdmin } = useIsAdmin();
   const { t } = useLanguage();
   const navigate = useNavigate();
   const [reservations, setReservations] = useState<Reservation[]>([]);
@@ -73,14 +76,29 @@ const ProfilePage = () => {
         <div className="max-w-4xl mx-auto">
           <SectionHeader label={t("profile.myAccount")} title={t("profile.title")} titleAccent={t("profile.subtitle")} />
           {/* User Info */}
-          <div className="border border-border p-6 mb-10 flex items-center gap-4">
-            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-              <User className="w-6 h-6 text-primary" />
+          <div className="border border-border p-6 mb-10 flex items-center justify-between gap-4 flex-wrap">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                <User className="w-6 h-6 text-primary" />
+              </div>
+              <div>
+                <p className="text-sm text-muted-foreground">{t("profile.loggedInAs")}</p>
+                <p className="text-foreground font-medium">{user.email}</p>
+                {isAdmin && (
+                  <span className="inline-block mt-1 text-[0.65rem] tracking-[0.15em] uppercase px-2 py-0.5 bg-primary/15 text-primary">
+                    Admin
+                  </span>
+                )}
+              </div>
             </div>
-            <div>
-              <p className="text-sm text-muted-foreground">{t("profile.loggedInAs")}</p>
-              <p className="text-foreground font-medium">{user.email}</p>
-            </div>
+            {isAdmin && (
+              <Link
+                to="/admin"
+                className="flex items-center gap-2 px-6 py-3 text-[0.72rem] tracking-[0.15em] uppercase bg-primary text-primary-foreground hover:opacity-90 transition-opacity"
+              >
+                <ShieldCheck className="w-4 h-4" /> Admin Panel
+              </Link>
+            )}
           </div>
 
           {/* Reservation History */}
