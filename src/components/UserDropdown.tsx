@@ -41,7 +41,9 @@ const UserDropdown = () => {
         className="flex items-center gap-1.5 text-xs tracking-[0.1em] text-foreground/70 hover:text-primary transition-colors p-2"
       >
         <User className="w-4 h-4" />
-        <span className="max-w-[120px] truncate hidden lg:inline">{user.email}</span>
+        <span className="max-w-[120px] truncate hidden lg:inline">
+          {(user.user_metadata?.name as string | undefined) || user.email}
+        </span>
         <ChevronDown className="w-3 h-3" />
       </button>
       {open && (
